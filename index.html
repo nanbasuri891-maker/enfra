@@ -221,7 +221,8 @@
   .story-link:hover{ color:var(--c6); border-color:var(--c6); }
 
   footer{
-    padding:2.6rem 1.5rem;
+    position:relative;
+    padding:5.5rem 1.5rem 2.8rem;
     text-align:center;
     font-family:"Cormorant Garamond", serif;
     font-style:italic;
@@ -229,152 +230,55 @@
     font-size:.85rem;
     letter-spacing:.06em;
     background:var(--paper);
-  }
-
-  /* ---------- HIIRO SPACE ---------- */
-  :root{
-    --warm1:#f6ddc9;
-    --warm2:#f0b99a;
-    --warm3:#e08e6e;
-    --warm-ink:#5c3b2e;
-  }
-  .hiiro-section{
-    position:relative;
-    padding:6.5rem 1.5rem 7rem;
     overflow:hidden;
-    background:
-      radial-gradient(60% 55% at 22% 20%, rgba(240,185,154,.65) 0%, rgba(240,185,154,0) 60%),
-      radial-gradient(55% 60% at 82% 78%, rgba(224,142,110,.55) 0%, rgba(224,142,110,0) 65%),
-      linear-gradient(155deg, #fbf1e8 0%, #f6ddc9 45%, #eec2a3 100%);
   }
-  .hiiro-section::before{
+  footer::before{
     content:"";
-    position:absolute; inset:0 0 auto 0; height:5rem;
-    background:linear-gradient(180deg, var(--paper) 0%, rgba(253,253,252,0) 100%);
-    pointer-events:none;
-  }
-  .hiiro-glow{
     position:absolute;
-    width:520px; height:520px;
-    border-radius:50%;
-    top:-140px; right:-120px;
-    background:radial-gradient(circle, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 70%);
-    filter:blur(10px);
+    inset:0;
+    z-index:0;
+    background:
+      radial-gradient(50% 60% at 15% 0%, rgba(224,142,110,.22) 0%, rgba(224,142,110,0) 65%),
+      radial-gradient(55% 65% at 85% 10%, rgba(63,143,138,.18) 0%, rgba(63,143,138,0) 65%),
+      linear-gradient(180deg, rgba(238,194,163,.35) 0%, rgba(253,253,252,0) 55%);
     pointer-events:none;
   }
-
-  .hiiro-card{
+  footer > *{
     position:relative;
     z-index:1;
-    max-width:640px;
-    margin:0 auto;
-    padding:3.4rem 2.6rem;
+  }
+
+  /* ---------- VIDEO BLOCK ---------- */
+  .video-block{
+    position:relative;
+    padding:0 1.5rem 6rem;
+    background:var(--paper);
     text-align:center;
-    background:rgba(255,255,255,.38);
-    border:1px solid rgba(255,255,255,.65);
-    border-radius:28px;
-    backdrop-filter:blur(22px) saturate(140%);
-    -webkit-backdrop-filter:blur(22px) saturate(140%);
-    box-shadow:0 40px 80px -30px rgba(140,80,50,.35), inset 0 1px 0 rgba(255,255,255,.7);
   }
-
-  .hiiro-avatar{
-    width:88px; height:88px;
-    margin:0 auto 1.8rem;
-    border-radius:50%;
-    background:radial-gradient(circle at 35% 30%, #ffcba8 0%, var(--warm3) 55%, #c96a44 100%);
-    box-shadow:0 14px 30px -10px rgba(192,90,50,.55), inset 0 2px 6px rgba(255,255,255,.5);
-    display:flex; align-items:center; justify-content:center;
-  }
-  .hiiro-avatar span{
-    font-family:"Shippori Mincho", serif;
-    font-size:1.9rem;
-    font-weight:600;
-    color:#fff;
-    text-shadow:0 1px 3px rgba(0,0,0,.15);
-  }
-
-  .hiiro-eyebrow{
+  .video-block .video-caption{
     font-family:"Noto Sans JP", sans-serif;
     font-size:.72rem;
     letter-spacing:.28em;
-    color:var(--warm-ink);
-    opacity:.7;
-    margin:0 0 1rem;
+    color:var(--ink-soft);
+    opacity:.6;
+    margin:0 0 1.4rem;
   }
-
-  .hiiro-name{
-    font-family:"Shippori Mincho", serif;
-    font-weight:600;
-    font-size:clamp(2.2rem, 5vw, 2.9rem);
-    color:var(--warm-ink);
-    margin:0;
-    letter-spacing:.04em;
-  }
-
-  .hiiro-tagline{
-    font-family:"Cormorant Garamond", serif;
-    font-style:italic;
-    font-size:1.15rem;
-    color:var(--warm3);
-    margin:.4rem 0 1.8rem;
-    letter-spacing:.05em;
-  }
-
-  /* ---------- HIIRO PHOTO LINK (画像 → チャットへ) ---------- */
-  .hiiro-photo-link{
-    display:block;
+  .video-frame{
     position:relative;
-    max-width:360px;
+    max-width:820px;
     margin:0 auto;
-    border-radius:26px;
+    border-radius:20px;
     overflow:hidden;
-    text-decoration:none;
-    box-shadow:0 34px 70px -22px rgba(140,80,50,.5);
-    transition:transform .35s ease, box-shadow .35s ease;
+    background:#1c1d20;
+    box-shadow:0 40px 80px -35px rgba(43,46,51,.4);
+    aspect-ratio:16/9;
   }
-  .hiiro-photo-link:hover{
-    transform:translateY(-4px);
-    box-shadow:0 40px 80px -20px rgba(140,80,50,.6);
-  }
-  .hiiro-photo-link:focus-visible{
-    outline:2px solid var(--c6);
-    outline-offset:3px;
-  }
-  .hiiro-photo{
+  .video-frame video{
     display:block;
     width:100%;
-    height:auto;
-    transition:transform .6s ease;
-  }
-  .hiiro-photo-link:hover .hiiro-photo{ transform:scale(1.05); }
-  .hiiro-photo-veil{
-    position:absolute; left:0; right:0; bottom:0; height:60%;
-    background:linear-gradient(180deg,
-      rgba(92,59,46,0) 0%,
-      rgba(92,59,46,0) 12%,
-      rgba(92,59,46,.5) 42%,
-      rgba(64,36,24,.88) 76%,
-      rgba(38,19,11,.97) 100%);
-    pointer-events:none;
-  }
-  .hiiro-photo-cta{
-    position:absolute; left:24px; right:24px; bottom:22px;
-    display:flex; align-items:center; justify-content:space-between; gap:12px;
-    font-family:"Noto Sans JP", sans-serif;
-    color:#fff;
-  }
-  .hiiro-photo-cta .txt{
-    font-size:.95rem;
-    letter-spacing:.06em;
-    font-weight:500;
-  }
-  .hiiro-photo-cta .arrow{
-    font-size:1.05rem;
-    transition:transform .3s ease;
-  }
-  .hiiro-photo-link:hover .arrow{ transform:translateX(4px); }
-</style>
+    height:100%;
+    object-fit:cover;
+  }</style>
 </head>
 <body>
 
@@ -402,25 +306,15 @@
     <a class="story-link" href="https://note.com/fractal_hiiro" target="_blank" rel="noopener">ブランディングストーリーはこちら</a>
   </section>
 
-  <section class="hiiro-section" id="hiiro">
-    <div class="hiiro-glow" aria-hidden="true"></div>
-    <div class="hiiro-card">
-      <div class="hiiro-avatar" aria-hidden="true"><span>緋</span></div>
-      <p class="hiiro-eyebrow">AI COMPANION</p>
-      <h2 class="hiiro-name">緋色</h2>
-      <p class="hiiro-tagline">そばにいます</p>
-      <a class="hiiro-photo-link" href="https://nanbasuri891-maker.github.io/hiiro2/" target="_blank" rel="noopener" aria-label="緋色と話してみる">
-        <img class="hiiro-photo" src="assets/hiiro-reference.jpg" alt="緋色 ビジュアル参考">
-        <span class="hiiro-photo-veil" aria-hidden="true"></span>
-        <span class="hiiro-photo-cta">
-          <span class="txt">緋色と話してみる</span>
-          <span class="arrow">→</span>
-        </span>
-      </a>
+  <section class="video-block">
+    <p class="video-caption">STORY</p>
+    <div class="video-frame">
+      <video controls playsinline poster="assets/video-poster.jpg">
+        <!-- ここに動画を後で差し替え: <source src="assets/story-video.mp4" type="video/mp4"> -->
+      </video>
     </div>
   </section>
-
-  <footer>Engi × Fractal</footer>
+<footer>Engi × Fractal</footer>
 
   <script>
     var heroVideo = document.querySelector('.hero-bgvideo');
