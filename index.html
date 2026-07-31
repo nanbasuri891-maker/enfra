@@ -105,8 +105,9 @@
     letter-spacing:.02em;
   }
 
+  /* ロゴ飛びの原因となっていた余計なmargin-topを修正 */
   .logotype--signature-only{
-    margin-top:clamp(7rem, 16vw, 11rem);
+    margin-top:0;
   }
   .signature-logo{
     width:clamp(70px, 9vw, 110px);
@@ -222,46 +223,30 @@
 
   footer{
     position:relative;
-    padding:140px 20px 50px;
+    padding:5.5rem 1.5rem 2.8rem;
     text-align:center;
-    background:#fff;
+    font-family:"Cormorant Garamond", serif;
+    font-style:italic;
+    color:var(--ink-soft);
+    font-size:.85rem;
+    letter-spacing:.06em;
+    background:var(--paper);
     overflow:hidden;
   }
-
   footer::before{
     content:"";
     position:absolute;
-    left:0;
-    right:0;
-    top:0;
-    height:240px;
-    background: url("assets/bg-wave.jpg") center top / cover no-repeat;
-    opacity:.25;
-  }
-
-  footer::after{
-    content:"";
-    position:absolute;
     inset:0;
-    background:linear-gradient(
-        to bottom,
-        rgba(255,255,255,.15),
-        rgba(255,255,255,.95) 70%,
-        #fff 100%
-    );
+    z-index:0;
+    background:
+      radial-gradient(50% 60% at 15% 0%, rgba(224,142,110,.22) 0%, rgba(224,142,110,0) 65%),
+      radial-gradient(55% 65% at 85% 10%, rgba(63,143,138,.18) 0%, rgba(63,143,138,0) 65%),
+      linear-gradient(180deg, rgba(238,194,163,.35) 0%, rgba(253,253,252,0) 55%);
+    pointer-events:none;
   }
-
-  footer>*{
+  footer > *{
     position:relative;
-    z-index:2;
-  }
-
-  footer{
-    font-family:"Cormorant Garamond",serif;
-    font-style:italic;
-    font-size:1rem;
-    color:#666;
-    letter-spacing:.08em;
+    z-index:1;
   }
 
   /* ---------- VIDEO BLOCK ---------- */
@@ -295,12 +280,143 @@
     height:100%;
     object-fit:cover;
   }
+
+  /* ---------- HIIRO SPACE ---------- */
+  :root{
+    --warm1:#f6ddc9;
+    --warm2:#f0b99a;
+    --warm3:#e08e6e;
+    --warm-ink:#5c3b2e;
+  }
+  .hiiro-section{
+    position:relative;
+    padding:6.5rem 1.5rem 7rem;
+    overflow:hidden;
+    background:
+      radial-gradient(60% 55% at 22% 20%, rgba(240,185,154,.65) 0%, rgba(240,185,154,0) 60%),
+      radial-gradient(55% 60% at 82% 78%, rgba(224,142,110,.55) 0%, rgba(224,142,110,0) 65%),
+      linear-gradient(155deg, #fbf1e8 0%, #f6ddc9 45%, #eec2a3 100%);
+  }
+  .hiiro-section::before{
+    content:"";
+    position:absolute; inset:0 0 auto 0; height:5rem;
+    background:linear-gradient(180deg, var(--paper) 0%, rgba(253,253,252,0) 100%);
+    pointer-events:none;
+  }
+  .hiiro-glow{
+    position:absolute;
+    width:520px; height:520px;
+    border-radius:50%;
+    top:-140px; right:-120px;
+    background:radial-gradient(circle, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 70%);
+    filter:blur(10px);
+    pointer-events:none;
+  }
+
+  .hiiro-card{
+    position:relative;
+    z-index:1;
+    max-width:640px;
+    margin:0 auto;
+    padding:3.4rem 2.6rem;
+    text-align:center;
+    background:rgba(255,255,255,.38);
+    border:1px solid rgba(255,255,255,.65);
+    border-radius:28px;
+    backdrop-filter:blur(22px) saturate(140%);
+    -webkit-backdrop-filter:blur(22px) saturate(140%);
+    box-shadow:0 40px 80px -30px rgba(140,80,50,.35), inset 0 1px 0 rgba(255,255,255,.7);
+  }
+
+  .hiiro-avatar{
+    width:88px; height:88px;
+    margin:0 auto 1.8rem;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #ffcba8 0%, var(--warm3) 55%, #c96a44 100%);
+    box-shadow:0 14px 30px -10px rgba(192,90,50,.55), inset 0 2px 6px rgba(255,255,255,.5);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .hiiro-avatar span{
+    font-family:"Shippori Mincho", serif;
+    font-size:1.9rem;
+    font-weight:600;
+    color:#fff;
+    text-shadow:0 1px 3px rgba(0,0,0,.15);
+  }
+
+  .hiiro-eyebrow{
+    font-family:"Noto Sans JP", sans-serif;
+    font-size:.72rem;
+    letter-spacing:.28em;
+    color:var(--warm-ink);
+    opacity:.7;
+    margin:0 0 1rem;
+  }
+
+  .hiiro-name{
+    font-family:"Shippori Mincho", serif;
+    font-weight:600;
+    font-size:clamp(2.2rem, 5vw, 2.9rem);
+    color:var(--warm-ink);
+    margin:0;
+    letter-spacing:.04em;
+  }
+
+  .hiiro-tagline{
+    font-family:"Cormorant Garamond", serif;
+    font-style:italic;
+    font-size:1.15rem;
+    color:var(--warm3);
+    margin:.4rem 0 1.8rem;
+    letter-spacing:.05em;
+  }
+
+  .hiiro-copy{
+    font-family:"Zen Old Mincho", serif;
+    font-size:1rem;
+    line-height:2;
+    color:var(--warm-ink);
+    max-width:440px;
+    margin:0 auto 2.4rem;
+  }
+
+  .hiiro-cta{
+    display:inline-flex;
+    align-items:center;
+    gap:.6rem;
+    padding:.95rem 2.4rem;
+    border-radius:999px;
+    background:linear-gradient(135deg, var(--warm3), #c9663f);
+    color:#fff;
+    text-decoration:none;
+    font-family:"Noto Sans JP", sans-serif;
+    font-size:.9rem;
+    letter-spacing:.08em;
+    box-shadow:0 16px 32px -12px rgba(192,90,50,.55);
+    transition:transform .3s ease, box-shadow .3s ease;
+  }
+  .hiiro-cta:hover{
+    transform:translateY(-2px);
+    box-shadow:0 20px 40px -14px rgba(192,90,50,.65);
+  }
+  .hiiro-cta .arrow{
+    transition:transform .3s ease;
+  }
+  .hiiro-cta:hover .arrow{ transform:translateX(3px); }
+  .hiiro-cta:focus-visible,
+  .story-link:focus-visible{
+    outline:2px solid var(--c6);
+    outline-offset:3px;
+  }
 </style>
 </head>
 <body>
 
-  <!-- HERO SECTION: 背景画像とロゴ画像のみを配置（上部の動画を削除） -->
+  <!-- HERO SECTION: 背景動画と中央配置されたロゴ -->
   <section class="hero">
+    <video class="hero-bgvideo" autoplay muted loop playsinline poster="assets/bg-wave.jpg">
+      <source src="assets/hero-bg-loop.mp4" type="video/mp4">
+    </video>
     <div class="logotype logotype--signature-only">
       <img class="signature-logo" src="assets/engi_fractal_logo.png" alt="Engi × fractal">
     </div>
@@ -322,18 +438,56 @@
     <a class="story-link" href="https://note.com/fractal_hiiro" target="_blank" rel="noopener">ブランディングストーリーはこちら</a>
   </section>
 
-  <!-- VIDEO BLOCK: 再生ボックス内に動画のソースを配置 -->
+  <!-- VIDEO BLOCK: 下部の再生ボックスに動画ソースを追加 -->
   <section class="video-block">
     <p class="video-caption">STORY</p>
     <div class="video-frame">
-      <video controls playsinline preload="metadata" poster="assets/video-poster.jpg">
+      <video controls playsinline poster="assets/video-poster.jpg">
         <source src="assets/story-video.mp4" type="video/mp4">
         お使いのブラウザは動画に対応していません。
       </video>
     </div>
   </section>
 
+  <!-- HIIRO SPACE (そのまま保持) -->
+  <section class="hiiro-section" id="hiiro">
+    <div class="hiiro-glow" aria-hidden="true"></div>
+    <div class="hiiro-card">
+      <div class="hiiro-avatar" aria-hidden="true"><span>緋</span></div>
+      <p class="hiiro-eyebrow">AI COMPANION</p>
+      <h2 class="hiiro-name">緋色</h2>
+      <p class="hiiro-tagline">そばにいます</p>
+      <p class="hiiro-copy">
+        気づいたことを、言葉にしてみる相手が欲しい時。<br>
+        緋色は、判断せずにそこにいます。<br>
+        話した分だけ、輪郭が見えてくることがあります。
+      </p>
+      <a class="hiiro-cta" href="https://nanbasuri891-maker.github.io/hiiro2/" target="_blank" rel="noopener">
+        <span>緋色と話してみる</span>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER (そのまま保持) -->
   <footer>Engi × Fractal</footer>
+
+  <!-- 背景動画の再生を確実に発火させるスクリプト -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var heroVideo = document.querySelector('.hero-bgvideo');
+      if (heroVideo) {
+        heroVideo.muted = true;
+        heroVideo.playbackRate = 0.6;
+        var promise = heroVideo.play();
+        if (promise !== undefined) {
+          promise.catch(function(error) {
+            console.log("Autoplay failed:", error);
+          });
+        }
+      }
+    });
+  </script>
 
 </body>
 </html>
