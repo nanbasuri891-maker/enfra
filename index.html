@@ -43,15 +43,17 @@
     *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
   }
 
-  /* ---------- HERO ---------- */
+  /* ---------- HERO (ロゴ被り防止の余白構造を適用) ---------- */
   .hero{
     position:relative;
     width:100%;
-    min-height:90vh;
-    height:100dvh;
+    min-height:100dvh;
     display:flex;
+    flex-direction:column;
     align-items:center;
     justify-content:center;
+    /* 下部に 6rem のセーフゾーンを設定してスクロール線との被りを回避 */
+    padding:2rem 1.5rem 6rem;
     background:#e9e9e7 url("assets/bg-wave.jpg") center 60% / cover no-repeat;
     overflow:hidden;
   }
@@ -74,7 +76,7 @@
     pointer-events:none;
   }
 
-  /* ロゴ位置の配置を中央固定に統一 */
+  /* ロゴコンテナ */
   .logotype{
     position:relative;
     z-index:2;
@@ -82,7 +84,7 @@
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    padding:1rem;
+    margin:auto 0;
     opacity:0;
     animation:fadeIn 1.2s ease-out 0.2s forwards;
   }
@@ -92,21 +94,24 @@
     to{ opacity:1; transform:translateY(0); }
   }
 
+  /* ロゴ画像：サイズと最大高さを制御して被りを防止 */
   .signature-logo{
     width:clamp(140px, 22vw, 240px);
+    max-height:35vh; /* 画面高に対して大きくなりすぎるのを制御 */
     height:auto;
     display:block;
     margin:0 auto;
     object-fit:contain;
   }
 
+  /* スクロール線：Hero下部のセーフエリア内に固定配置 */
   .scroll-cue{
     position:absolute;
-    bottom:2rem;
+    bottom:1.5rem;
     left:50%;
     transform:translateX(-50%);
     width:1px;
-    height:48px;
+    height:40px;
     background:linear-gradient(180deg, rgba(43,46,51,0) 0%, rgba(43,46,51,.4) 60%, rgba(43,46,51,0) 100%);
     z-index:2;
   }
@@ -128,7 +133,7 @@
     0%{ top:0; opacity:0; }
     20%{ opacity:1; }
     80%{ opacity:1; }
-    100%{ top:42px; opacity:0; }
+    100%{ top:36px; opacity:0; }
   }
 
   /* ---------- STATEMENT ---------- */
@@ -263,7 +268,7 @@
 </head>
 <body>
 
-  <!-- HERO SECTION: スロー再生される背景動画と安定配置されたロゴ -->
+  <!-- HERO SECTION -->
   <section class="hero">
     <video class="hero-bgvideo" id="heroVideo" autoplay muted loop playsinline poster="assets/bg-wave.jpg">
       <source src="assets/hero-bg-loop.mp4" type="video/mp4">
@@ -303,13 +308,13 @@
   <!-- FOOTER -->
   <footer>Engi × Fractal</footer>
 
-  <!-- JS: 背景動画のスロー再生（ゆっくりループ）と自動再生の担保 -->
+  <!-- JS: 背景動画のスロー再生 -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       var heroVideo = document.getElementById('heroVideo');
       if (heroVideo) {
         heroVideo.muted = true;
-        heroVideo.playbackRate = 0.5; // 0.5倍速でゆっくりループ再生
+        heroVideo.playbackRate = 0.5;
         var promise = heroVideo.play();
         if (promise !== undefined) {
           promise.catch(function(error) {
