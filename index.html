@@ -410,25 +410,35 @@
     display:flex;
     flex-direction:column;
     align-items:center;
-    gap:.6rem;
-    padding:1.4rem 1.5rem;
-    margin:.4rem 0;
-    border-top:1px solid var(--line);
-    border-bottom:1px solid var(--line);
+    gap:.9rem;
+    padding:2rem 1.8rem;
+    margin:.8rem 0;
+    border-radius:16px;
+    background:linear-gradient(180deg, rgba(185,146,47,0.06), rgba(185,146,47,0.02));
+    border:1px solid rgba(185,146,47,0.25);
+  }
+
+  .layer-bridge-label{
+    margin:0;
+    font-family:"Noto Sans JP", sans-serif;
+    font-weight:400;
+    font-size:.78rem;
+    letter-spacing:.14em;
+    color:var(--ink-soft);
   }
 
   .layer-bridge img{
-    width:140px;
+    width:160px;
     height:auto;
-    opacity:.9;
+    opacity:1;
   }
 
   .layer-bridge p{
     margin:0;
     font-family:"Zen Maru Gothic", sans-serif;
-    font-weight:500;
-    font-size:.9rem;
-    letter-spacing:.06em;
+    font-weight:600;
+    font-size:1.05rem;
+    letter-spacing:.08em;
     color:var(--c6);
   }
 
@@ -591,6 +601,7 @@
     display:block;
     width:100%;
     padding:3rem 1.5rem;
+    text-align:center;
     background:var(--paper);
     transition:opacity .25s ease;
   }
@@ -687,8 +698,9 @@
       </div>
 
       <div class="layer-bridge">
+        <p class="layer-bridge-label">美脳調律</p>
         <img src="assets/logo-binoh.png" alt="美脳調律">
-        <p>ここに、美脳が接続する</p>
+        <p>美脳がHUB接続する</p>
       </div>
 
       <div class="layer-row">
@@ -723,7 +735,6 @@
     <div class="closing">
       <p>現代は①②までは二項間で育ちやすく、<br>③④は三項間以上でしか育ちにくい。</p>
       <p>自分を守るための距離が、いつしか関係そのものを遠ざけていないか。</p>
-      <p class="emphasis">目指す先は、遠い理想ではない。</p>
       <p>美脳は、その二層を繋ぐ場所に立っている。</p>
     </div>
   </section>
@@ -745,16 +756,15 @@
     <div class="lines">
       <p>脳のOSが、旧いバージョンのまま――</p>
       <p>最適化できていないだけ。</p>
-      <p class="strong">最新バージョンの動きがインストールされていないまま<br>未実装なだけかもしれません。</p>
+      <p class="strong">最新バージョンの動きが<br>インストールされていないだけかもしれません。</p>
     </div>
 
     <p class="lead">美脳調律プログラムでは</p>
     <p class="lead">美脳―バージョンアップしたOSで</p>
 
     <div class="invite">
-      <p>人生を欲張りに</p>
-      <p>関係性の質をあげる</p>
-      <p>おはなし会を開催しています</p>
+      <p>人生を欲張りにする</p>
+      <p>おはなし会を開催しています。</p>
     </div>
 
     <p class="note">
@@ -776,6 +786,7 @@
 
   <!-- UNOFFICIAL COMMUNITY BANNER -->
   <a class="unofficial-banner" href="https://nanbasuri891-maker.github.io/bino/un/" target="_blank" rel="noopener">
+    <p class="video-caption">美脳の未来予測レポート</p>
     <img src="assets/banner-unofficial.png" alt="非公式コミュニケーション">
   </a>
 
