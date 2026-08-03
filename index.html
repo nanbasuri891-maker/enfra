@@ -495,19 +495,26 @@
     height:110px;
   }
 
+  .highlight-text-group{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:.6rem;
+  }
+
   .layer-highlight-label{
     margin:0;
     font-family:"Cormorant Garamond", serif;
     font-style:italic;
-    font-size:.85rem;
-    letter-spacing:.1em;
+    font-size:.9rem;
+    letter-spacing:.14em;
     color:var(--ink-soft);
   }
 
   .layer-highlight-text{
     font-family:"Zen Old Mincho", serif;
-    font-size:clamp(1.1rem, 2.4vw, 1.3rem);
-    line-height:1.85;
+    font-size:clamp(1.05rem, 2.2vw, 1.25rem);
+    line-height:1.6;
     letter-spacing:.04em;
     font-weight:600;
     margin:0;
@@ -765,7 +772,7 @@
         <line x1="315" y1="155" x2="445" y2="155" stroke="var(--gold)" stroke-width="1"/>
         <circle cx="315" cy="155" r="3" fill="var(--gold)"/>
         <circle cx="445" cy="155" r="3" fill="var(--gold)"/>
-        <image href="assets/logo-binoh.png" x="415" y="79" width="60" height="60"/>
+        <image href="assets/logo-binoh.png" x="395" y="126" width="100" height="24"/>
         <text x="445" y="178" text-anchor="middle" font-family="Zen Maru Gothic, sans-serif" font-weight="600" font-size="13" letter-spacing="0.05em" fill="var(--c6)">HUB接続する</text>
       </svg>
     </div>
@@ -835,11 +842,11 @@
     <div class="lines">
       <p>脳のOSが、旧いバージョンのまま――</p>
       <p>最適化できていないだけ。</p>
-      <p class="strong">最新バージョンの動きが<br>インストールされていないだけかもしれません。</p>
     </div>
 
     <p class="lead">美脳調律プログラムでは</p>
-    <p class="lead">美脳―バージョンアップしたOSで</p>
+    <p class="lead">OSアップデート</p>
+    <p class="lead">再起動で</p>
 
     <div class="invite">
       <p>人生を欲張りにする</p>
