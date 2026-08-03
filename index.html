@@ -206,18 +206,20 @@
   .story-link{
     display:inline-block;
     font-family:"Noto Sans JP", sans-serif;
-    font-size:.85rem;
-    letter-spacing:.08em;
-    color:var(--ink-soft);
+    font-size:1rem;
+    letter-spacing:.1em;
+    color:var(--ink);
     text-decoration:none;
-    border-bottom:1px solid var(--ink-soft);
-    padding-bottom:2px;
-    transition:color .25s ease, border-color .25s ease;
+    padding:.85rem 2.4rem;
+    border:1px solid var(--gold);
+    border-radius:999px;
+    transition:background .25s ease, color .25s ease, border-color .25s ease;
   }
 
   .story-link:hover{
-    color:var(--c6);
-    border-color:var(--c6);
+    background:var(--gold);
+    color:var(--paper);
+    border-color:var(--gold);
   }
 
   .story-link--sub{
@@ -270,7 +272,7 @@
   }
 
   .binojp-logo{
-    width:clamp(50px, 8vw, 90px);
+    width:clamp(90px, 13vw, 150px);
     height:auto;
     display:block;
     margin:0 auto 1.2rem;
@@ -303,22 +305,22 @@
 
   .binojp-open{
     display:inline-block;
-    margin-top:1.4rem;
+    margin-top:1.6rem;
     font-family:"Noto Sans JP", sans-serif;
-    font-size:.82rem;
-    letter-spacing:.06em;
-    color:var(--ink-soft);
+    font-size:.95rem;
+    letter-spacing:.08em;
+    color:var(--ink);
     text-decoration:none;
-    border-bottom:1px solid var(--ink-soft);
-    padding-bottom:2px;
-    opacity:.75;
-    transition:color .25s ease, border-color .25s ease, opacity .25s ease;
+    padding:.75rem 2.2rem;
+    border:1px solid var(--gold);
+    border-radius:999px;
+    transition:background .25s ease, color .25s ease, border-color .25s ease;
   }
 
   .binojp-open:hover{
-    color:var(--c6);
-    border-color:var(--c6);
-    opacity:1;
+    background:var(--gold);
+    color:var(--paper);
+    border-color:var(--gold);
   }
 
   /* ---------- CIRCULATION PHILOSOPHY (循環哲学) ---------- */
@@ -416,7 +418,7 @@
   }
 
   .layer-bridge img{
-    width:44px;
+    width:68px;
     height:auto;
     opacity:.9;
   }
@@ -510,7 +512,7 @@
   }
 
   .binosusume-logo{
-    width:clamp(46px, 7vw, 64px);
+    width:clamp(70px, 10vw, 100px);
     height:auto;
     display:block;
     margin:0 auto 1.4rem;
