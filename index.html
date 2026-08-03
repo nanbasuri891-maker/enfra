@@ -364,6 +364,58 @@
     gap:0;
   }
 
+  .pyramid-wrap{
+    max-width:460px;
+    margin:0 auto 2.5rem;
+  }
+
+  .pyramid-wrap svg{
+    width:100%;
+    height:auto;
+    display:block;
+  }
+
+  .pyramid-legend{
+    max-width:480px;
+    margin:0 auto 3rem;
+    display:flex;
+    flex-direction:column;
+    gap:.7rem;
+  }
+
+  .pyramid-legend-row{
+    display:flex;
+    align-items:baseline;
+    justify-content:center;
+    gap:.9rem;
+  }
+
+  .pyramid-legend-num{
+    font-family:"Cormorant Garamond", serif;
+    font-style:italic;
+    font-size:.8rem;
+    color:var(--ink-soft);
+    min-width:56px;
+    text-align:right;
+  }
+
+  .pyramid-legend-name{
+    font-family:"Zen Old Mincho", serif;
+    font-size:.92rem;
+    letter-spacing:.05em;
+    color:var(--ink);
+    font-weight:600;
+    min-width:88px;
+    text-align:left;
+  }
+
+  .pyramid-legend-detail{
+    font-family:"Noto Sans JP", sans-serif;
+    font-size:.78rem;
+    color:var(--ink-soft);
+    letter-spacing:.02em;
+  }
+
   .layer-row{
     width:100%;
     display:flex;
@@ -406,53 +458,50 @@
     background:var(--line);
   }
 
-  .layer-bridge{
+  .layer-highlight{
     display:flex;
     flex-direction:column;
     align-items:center;
-    gap:.9rem;
-    padding:2rem 1.8rem;
-    margin:.8rem 0;
+    gap:1.2rem;
+    padding:2.2rem 1.8rem 2.4rem;
+    margin:1.2rem 0;
     border-radius:16px;
     background:linear-gradient(180deg, rgba(185,146,47,0.06), rgba(185,146,47,0.02));
     border:1px solid rgba(185,146,47,0.25);
   }
 
-  .layer-bridge-label{
-    margin:0;
-    font-family:"Noto Sans JP", sans-serif;
-    font-weight:400;
-    font-size:.78rem;
-    letter-spacing:.14em;
-    color:var(--ink-soft);
+  .bridge-mini{
+    display:flex;
+    align-items:center;
+    gap:.6rem;
   }
 
-  .layer-bridge img{
-    width:160px;
+  .bridge-mini img{
+    width:36px;
     height:auto;
-    opacity:1;
   }
 
-  .layer-bridge p{
+  .bridge-mini p{
     margin:0;
     font-family:"Zen Maru Gothic", sans-serif;
     font-weight:600;
-    font-size:1.05rem;
+    font-size:.88rem;
     letter-spacing:.08em;
     color:var(--c6);
   }
 
-  .layer-highlight{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:1.1rem;
-    padding:1.8rem 1rem 2rem;
+  .layer-highlight svg{
+    width:110px;
+    height:110px;
   }
 
-  .layer-highlight svg{
-    width:120px;
-    height:120px;
+  .layer-highlight-label{
+    margin:0;
+    font-family:"Cormorant Garamond", serif;
+    font-style:italic;
+    font-size:.85rem;
+    letter-spacing:.1em;
+    color:var(--ink-soft);
   }
 
   .layer-highlight-text{
@@ -535,7 +584,7 @@
     flex-direction:column;
     gap:.9rem;
     max-width:600px;
-    margin:0 auto;
+    margin:0 auto 2.4rem;
     font-family:"Zen Old Mincho", serif;
     font-size:clamp(.98rem, 1.6vw, 1.05rem);
     letter-spacing:.06em;
@@ -684,58 +733,86 @@
       <p>情報への反応と、人への共感は、本来別のもの。</p>
     </div>
 
-    <div class="layer-map">
-      <div class="layer-row">
-        <span class="layer-num">第一層</span>
-        <span class="layer-name">認知共感</span>
-        <span class="layer-detail">見た・知った・理解した</span>
-      </div>
-      <div class="layer-arrow"></div>
-      <div class="layer-row">
-        <span class="layer-num">第二層</span>
-        <span class="layer-name">感情共感</span>
-        <span class="layer-detail">わかる・私もそうだった</span>
-      </div>
+    <div class="pyramid-wrap">
+      <svg viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="共感の四層ピラミッド。頂点が循環共感、土台が認知共感。関係共感の層に美脳がHUBとして接続する。">
+        <defs>
+          <linearGradient id="pyramidApex" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="var(--gold-soft)"/>
+            <stop offset="100%" stop-color="var(--gold)"/>
+          </linearGradient>
+        </defs>
 
-      <div class="layer-bridge">
-        <p class="layer-bridge-label">美脳調律</p>
-        <img src="assets/logo-binoh.png" alt="美脳調律">
-        <p>美脳がHUB接続する</p>
+        <polygon points="240,20 290,110 190,110" fill="url(#pyramidApex)" stroke="var(--gold)" stroke-width="1"/>
+        <polygon points="190,110 290,110 340,200 140,200" fill="rgba(185,146,47,0.12)" stroke="var(--gold)" stroke-width="1"/>
+        <polygon points="140,200 340,200 390,290 90,290" fill="rgba(185,146,47,0.06)" stroke="var(--gold)" stroke-width="1"/>
+        <polygon points="90,290 390,290 440,380 40,380" fill="rgba(185,146,47,0.02)" stroke="var(--gold)" stroke-width="1"/>
+
+        <text x="240" y="60" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="#5a3f14">第四層</text>
+        <text x="240" y="80" text-anchor="middle" font-family="Zen Old Mincho, serif" font-weight="600" font-size="14" fill="#4a3814">循環共感</text>
+
+        <text x="240" y="145" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="var(--ink-soft)">第三層</text>
+        <text x="240" y="167" text-anchor="middle" font-family="Zen Old Mincho, serif" font-weight="600" font-size="15" fill="var(--ink)">関係共感</text>
+
+        <text x="240" y="235" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="var(--ink-soft)">第二層</text>
+        <text x="240" y="257" text-anchor="middle" font-family="Zen Old Mincho, serif" font-weight="600" font-size="15" fill="var(--ink)">感情共感</text>
+
+        <text x="240" y="325" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="var(--ink-soft)">第一層</text>
+        <text x="240" y="347" text-anchor="middle" font-family="Zen Old Mincho, serif" font-weight="600" font-size="15" fill="var(--ink)">認知共感</text>
+
+        <line x1="315" y1="155" x2="445" y2="155" stroke="var(--gold)" stroke-width="1"/>
+        <circle cx="315" cy="155" r="3" fill="var(--gold)"/>
+        <circle cx="445" cy="155" r="3" fill="var(--gold)"/>
+        <image href="assets/logo-binoh.png" x="424" y="97" width="42" height="42"/>
+        <text x="445" y="178" text-anchor="middle" font-family="Zen Maru Gothic, sans-serif" font-weight="600" font-size="13" letter-spacing="0.05em" fill="var(--c6)">HUB接続する</text>
+      </svg>
+    </div>
+
+    <div class="pyramid-legend">
+      <div class="pyramid-legend-row">
+        <span class="pyramid-legend-num">第一層</span>
+        <span class="pyramid-legend-name">認知共感</span>
+        <span class="pyramid-legend-detail">見た・知った・理解した</span>
       </div>
-
-      <div class="layer-row">
-        <span class="layer-num">第三層</span>
-        <span class="layer-name">関係共感</span>
+      <div class="pyramid-legend-row">
+        <span class="pyramid-legend-num">第二層</span>
+        <span class="pyramid-legend-name">感情共感</span>
+        <span class="pyramid-legend-detail">わかる・私もそうだった</span>
       </div>
+      <div class="pyramid-legend-row">
+        <span class="pyramid-legend-num">第三層</span>
+        <span class="pyramid-legend-name">関係共感</span>
+        <span class="pyramid-legend-detail">まず到達すべき基準</span>
+      </div>
+      <div class="pyramid-legend-row">
+        <span class="pyramid-legend-num">第四層</span>
+        <span class="pyramid-legend-name">循環共感</span>
+        <span class="pyramid-legend-detail">関係を越えて広がっていく</span>
+      </div>
+    </div>
 
-      <div class="layer-highlight">
-        <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M 126.0,120.0 L 126.5,120.8 L 126.9,121.6 L 127.2,122.6 L 127.3,123.7 L 127.3,124.8 L 127.1,126.0 L 126.8,127.2 L 126.2,128.4 L 125.5,129.6 L 124.5,130.6 L 123.4,131.6 L 122.2,132.5 L 120.7,133.2 L 119.1,133.8 L 117.4,134.1 L 115.6,134.3 L 113.8,134.2 L 111.9,133.8 L 110.0,133.2 L 108.2,132.4 L 106.4,131.3 L 104.7,129.9 L 103.1,128.3 L 101.7,126.5 L 100.6,124.4 L 99.6,122.2 L 99.0,119.8 L 98.6,117.3 L 98.5,114.7 L 98.7,112.0 L 99.3,109.3 L 100.2,106.7 L 101.5,104.1 L 103.1,101.7 L 105.0,99.4 L 107.2,97.3 L 109.8,95.4 L 112.5,93.9 L 115.5,92.6 L 118.7,91.7 L 122.1,91.2 L 125.5,91.1 L 129.0,91.4 L 132.5,92.2 L 135.9,93.3 L 139.3,94.9 L 142.5,96.9 L 145.4,99.4 L 148.1,102.2 L 150.5,105.3 L 152.5,108.8 L 154.2,112.5 L 155.4,116.5 L 156.1,120.6 L 156.3,124.9 L 156.0,129.3 L 155.2,133.6 L 153.9,137.9 L 152.1,142.0 L 149.7,145.9 L 146.8,149.6 L 143.5,153.0 L 139.8,156.0 L 135.7,158.6 L 131.2,160.7 L 126.5,162.3 L 121.6,163.3 L 116.5,163.7 L 111.3,163.6 L 106.1,162.8 L 101.0,161.4 L 96.0,159.4 L 91.2,156.7 L 86.8,153.5 L 82.6,149.8 L 79.0,145.5 L 75.8,140.8 L 73.1,135.7 L 71.0,130.3 L 69.6,124.5 L 68.9,118.6 L 68.8,112.6 L 69.5,106.6 L 70.9,100.6 L 73.0,94.7 L 75.8,89.1 L 79.3,83.8 L 83.4,78.9 L 88.1,74.5 L 93.4,70.6 L 99.1,67.3 L 105.3,64.7 L 111.7,62.8 L 118.4,61.6 L 125.3,61.3 L 132.2,61.8 L 139.1,63.1 L 145.8,65.2 L 152.3,68.1 L 158.5,71.7 L 164.2,76.2 L 169.5,81.3 L 174.1,87.0 L 178.1,93.3 L 181.3,100.1 L 183.8,107.2 L 185.4,114.7 L 186.1,122.4 L 186.0,130.1 L 184.9,137.9 L 182.9,145.5 L 179.9,153.0 L 176.1,160.0 L 171.5,166.7 L 166.1,172.8 L 160.0,178.2 L 153.2,183.0 L 145.8,186.9 L 138.0,190.0 L 129.8,192.2 L 121.3,193.4 L 112.7,193.6 L 104.1,192.8 L 95.5,191.0 L 87.2,188.2 L 79.2,184.3 L 71.6,179.6 L 64.6,173.9 L 58.3,167.5 L 52.7,160.2 L 47.9,152.3 L 44.1,143.9 L 41.3,135.0 L 39.6,125.8 L 38.9,116.4 L 39.3,106.8 L 40.8,97.4 L 43.5,88.1 L 47.2,79.1 L 52.0,70.6"
-                fill="none" stroke="var(--gold)" stroke-width="1.1" stroke-linecap="round" opacity=".55"/>
-          <polygon points="120.0,110.0 122.4,116.8 129.5,116.9 123.8,121.2 125.9,128.1 120.0,124.0 114.1,128.1 116.2,121.2 110.5,116.9 117.6,116.8"
-                   fill="none" stroke="var(--gold)" stroke-width="1.6" stroke-linejoin="round"/>
-        </svg>
+    <div class="layer-highlight">
+      <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M 126.0,120.0 L 126.5,120.8 L 126.9,121.6 L 127.2,122.6 L 127.3,123.7 L 127.3,124.8 L 127.1,126.0 L 126.8,127.2 L 126.2,128.4 L 125.5,129.6 L 124.5,130.6 L 123.4,131.6 L 122.2,132.5 L 120.7,133.2 L 119.1,133.8 L 117.4,134.1 L 115.6,134.3 L 113.8,134.2 L 111.9,133.8 L 110.0,133.2 L 108.2,132.4 L 106.4,131.3 L 104.7,129.9 L 103.1,128.3 L 101.7,126.5 L 100.6,124.4 L 99.6,122.2 L 99.0,119.8 L 98.6,117.3 L 98.5,114.7 L 98.7,112.0 L 99.3,109.3 L 100.2,106.7 L 101.5,104.1 L 103.1,101.7 L 105.0,99.4 L 107.2,97.3 L 109.8,95.4 L 112.5,93.9 L 115.5,92.6 L 118.7,91.7 L 122.1,91.2 L 125.5,91.1 L 129.0,91.4 L 132.5,92.2 L 135.9,93.3 L 139.3,94.9 L 142.5,96.9 L 145.4,99.4 L 148.1,102.2 L 150.5,105.3 L 152.5,108.8 L 154.2,112.5 L 155.4,116.5 L 156.1,120.6 L 156.3,124.9 L 156.0,129.3 L 155.2,133.6 L 153.9,137.9 L 152.1,142.0 L 149.7,145.9 L 146.8,149.6 L 143.5,153.0 L 139.8,156.0 L 135.7,158.6 L 131.2,160.7 L 126.5,162.3 L 121.6,163.3 L 116.5,163.7 L 111.3,163.6 L 106.1,162.8 L 101.0,161.4 L 96.0,159.4 L 91.2,156.7 L 86.8,153.5 L 82.6,149.8 L 79.0,145.5 L 75.8,140.8 L 73.1,135.7 L 71.0,130.3 L 69.6,124.5 L 68.9,118.6 L 68.8,112.6 L 69.5,106.6 L 70.9,100.6 L 73.0,94.7 L 75.8,89.1 L 79.3,83.8 L 83.4,78.9 L 88.1,74.5 L 93.4,70.6 L 99.1,67.3 L 105.3,64.7 L 111.7,62.8 L 118.4,61.6 L 125.3,61.3 L 132.2,61.8 L 139.1,63.1 L 145.8,65.2 L 152.3,68.1 L 158.5,71.7 L 164.2,76.2 L 169.5,81.3 L 174.1,87.0 L 178.1,93.3 L 181.3,100.1 L 183.8,107.2 L 185.4,114.7 L 186.1,122.4 L 186.0,130.1 L 184.9,137.9 L 182.9,145.5 L 179.9,153.0 L 176.1,160.0 L 171.5,166.7 L 166.1,172.8 L 160.0,178.2 L 153.2,183.0 L 145.8,186.9 L 138.0,190.0 L 129.8,192.2 L 121.3,193.4 L 112.7,193.6 L 104.1,192.8 L 95.5,191.0 L 87.2,188.2 L 79.2,184.3 L 71.6,179.6 L 64.6,173.9 L 58.3,167.5 L 52.7,160.2 L 47.9,152.3 L 44.1,143.9 L 41.3,135.0 L 39.6,125.8 L 38.9,116.4 L 39.3,106.8 L 40.8,97.4 L 43.5,88.1 L 47.2,79.1 L 52.0,70.6"
+              fill="none" stroke="var(--gold)" stroke-width="1.1" stroke-linecap="round" opacity=".55"/>
+        <polygon points="120.0,110.0 122.4,116.8 129.5,116.9 123.8,121.2 125.9,128.1 120.0,124.0 114.1,128.1 116.2,121.2 110.5,116.9 117.6,116.8"
+                 fill="none" stroke="var(--gold)" stroke-width="1.6" stroke-linejoin="round"/>
+      </svg>
 
+      <div class="highlight-text-group">
+        <p class="layer-highlight-label">第三層</p>
         <p class="layer-highlight-text">まず到達すべき基準<br>――循環は、すでにここに巡っている</p>
-
-        <div class="self-view">
-          <p class="self-view-term">自己観</p>
-          <p class="self-view-desc">ありのままの自分を形成</p>
-        </div>
       </div>
 
-      <div class="layer-arrow"></div>
-      <div class="layer-row">
-        <span class="layer-num">第四層</span>
-        <span class="layer-name">循環共感</span>
-        <span class="layer-detail">その循環が、関係を越えて広がっていく</span>
+      <div class="self-view">
+        <p class="self-view-term">自己観</p>
+        <p class="self-view-desc">ありのままの自分を形成</p>
       </div>
     </div>
 
     <div class="closing">
-      <p>現代は①②までは二項間で育ちやすく、<br>③④は三項間以上でしか育ちにくい。</p>
+      <p>現代は①②までは二項間で育ちやすく、<br>③④は「ある環境下」でしか育ちにくい。</p>
       <p>自分を守るための距離が、いつしか関係そのものを遠ざけていないか。</p>
-      <p>美脳は、その二層を繋ぐ場所に立っている。</p>
+      <p>美脳は、二層と三層の中間に立っている。</p>
     </div>
   </section>
 
