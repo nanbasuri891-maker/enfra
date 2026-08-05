@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>集客ライティング生成｜角度検証パイプライン</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F6EFE6;
+    --panel: rgba(255,255,255,0.55);
+    --panel-solid: #FFFDF9;
+    --wine: #7A2E3A;
+    --wine-deep: #5C1F29;
+    --gold: #B8933F;
+    --ink: #3B2430;
+    --muted: #8A7368;
+    --line: rgba(122,46,58,0.18);
+    --ura-bg: #2E1B22;
+    --ura-text: #F2E6DC;
+    --tips-bg: #F2E9D8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(circle at 15% 0%, rgba(184,147,63,0.14), transparent 45%),
+      radial-gradient(circle at 90% 20%, rgba(122,46,58,0.10), transparent 40%),
+      var(--bg);
+    font-family: 'Noto Sans JP', sans-serif;
+    color: var(--ink);
+    padding: 32px 20px 80px;
+  }
+  h1, h2, h3 { font-family: 'Shippori Mincho', serif; margin: 0; }
+  .wrap { max-width: 980px; margin: 0 auto; }
+
+  header.top { text-align: center; margin-bottom: 40px; }
+  header.top .eyebrow {
+    font-size: 12px; letter-spacing: 0.2em; color: var(--gold);
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  header.top h1 { font-size: 26px; font-weight: 700; color: var(--wine-deep); }
+  header.top p { color: var(--muted); font-size: 13px; margin-top: 8px; }
+
+  /* Pipeline visualization */
+  .pipeline {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin-bottom: 40px;
+  }
+  .stage {
+    flex: 1;
+    background: var(--panel);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 16px 14px;
+    position: relative;
+    transition: all 0.4s ease;
+  }
+  .stage + .stage { margin-left: 22px; }
+  .stage::before {
+    content: "";
+    position: absolute;
+    left: -22px; top: 50%;
+    width: 22px; height: 1px;
+    background: var(--line);
+  }
+  .stage:first-child::before { display: none; }
+  .stage .num {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 11px; color: var(--gold); letter-spacing: 0.1em;
+  }
+  .stage .label { font-size: 13px; font-weight: 700; margin-top: 4px; color: var(--wine-deep); }
+  .stage .sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .stage .dot {
+    position: absolute; top: 14px; right: 14px;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--line);
+  }
+  .stage.active { border-color: var(--gold); box-shadow: 0 4px 18px rgba(184,147,63,0.25); }
+  .stage.active .dot { background: var(--gold); animation: pulse 1.2s infinite; }
+  .stage.done { border-color: var(--wine); }
+  .stage.done .dot { background: var(--wine); }
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.35; } }
+
+  /* Input panel */
+  .panel {
+    background: var(--panel);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 28px;
+  }
+  .panel h2 { font-size: 16px; color: var(--wine-deep); margin-bottom: 14px; }
+  label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 4px; }
+  textarea, input, select {
+    width: 100%;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--panel-solid);
+    color: var(--ink);
+    margin-bottom: 14px;
+    resize: vertical;
+  }
+  textarea { min-height: 90px; }
+  .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .quickstates { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .qs-btn {
+    font-size: 11px; padding: 5px 10px; border-radius: 999px;
+    border: 1px solid var(--line); background: transparent; color: var(--wine);
+    cursor: pointer; transition: all 0.2s;
+  }
+  .qs-btn:hover { background: var(--wine); color: #fff; }
+  .situation-tag {
+    display: inline-block; font-size: 11px; padding: 5px 12px; margin-bottom: 12px;
+    border-radius: 999px; background: rgba(122,46,58,0.09); color: var(--wine-deep);
+    font-weight: 700; letter-spacing: 0.03em;
+  }
+  .guardrail {
+    font-size: 11px; color: var(--wine-deep); background: rgba(122,46,58,0.07);
+    border-left: 3px solid var(--wine); border-radius: 4px;
+    padding: 10px 12px; margin-bottom: 16px; line-height: 1.6;
+  }
+  .generate-btn {
+    width: 100%; padding: 13px; border: none; border-radius: 10px;
+    background: linear-gradient(135deg, var(--wine), var(--wine-deep));
+    color: #fff; font-size: 14px; font-weight: 700; letter-spacing: 0.05em;
+    cursor: pointer; font-family: 'Shippori Mincho', serif;
+    transition: opacity 0.2s;
+  }
+  .generate-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* Output */
+  .output { display: none; }
+  .output.show { display: block; }
+  .angle-tag {
+    display: inline-block; font-size: 11px; padding: 5px 12px;
+    border-radius: 999px; background: var(--gold); color: #fff;
+    font-weight: 700; letter-spacing: 0.05em; margin-bottom: 16px;
+  }
+  .card { border-radius: 14px; padding: 20px; margin-bottom: 16px; }
+  .card-hyo { background: var(--panel-solid); border: 1px solid var(--line); }
+  .card-ura { background: var(--ura-bg); color: var(--ura-text); }
+  .card-hyo2 { background: var(--panel-solid); border: 2px solid var(--gold); }
+  .card .tag { font-size: 11px; letter-spacing: 0.1em; margin-bottom: 8px; font-weight: 700; }
+  .card-hyo .tag, .card-hyo2 .tag { color: var(--wine); }
+  .card-ura .tag { color: var(--gold); }
+  .card p { font-size: 14px; line-height: 1.9; white-space: pre-wrap; margin: 0; }
+
+  /* Jissen (実践アクション) card */
+  .card-tips { background: var(--tips-bg); border: 1px solid var(--line); }
+  .card-tips .tag { color: var(--wine-deep); }
+  .tips-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .tips-list li {
+    font-size: 13px; line-height: 1.8; padding: 10px 14px 10px 34px;
+    background: var(--panel-solid); border-radius: 10px; position: relative;
+  }
+  .tips-list li::before {
+    content: "✓"; position: absolute; left: 12px; top: 10px;
+    color: var(--gold); font-weight: 700;
+  }
+
+  .research-toggle {
+    font-size: 12px; color: var(--muted); cursor: pointer;
+    display: inline-flex; align-items: center; gap: 4px; margin-bottom: 16px;
+  }
+  .research-body {
+    display: none; background: rgba(122,46,58,0.05); border-radius: 10px;
+    padding: 14px; font-size: 12px; color: var(--muted); line-height: 1.7;
+    margin-bottom: 16px; white-space: pre-wrap;
+  }
+  .research-body.show { display: block; }
+
+  /* History / 推移 */
+  .history-section h2 { font-size: 16px; color: var(--wine-deep); margin-bottom: 4px; }
+  .history-section .desc { font-size: 12px; color: var(--muted); margin-bottom: 18px; }
+  .history-track {
+    display: flex; gap: 14px; overflow-x: auto; padding-bottom: 12px;
+  }
+  .hist-card {
+    min-width: 240px; max-width: 240px; flex-shrink: 0;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px; cursor: pointer; transition: all 0.2s;
+  }
+  .hist-card:hover { border-color: var(--gold); }
+  .hist-card .time { font-size: 10px; color: var(--muted); }
+  .hist-card .tag { font-size: 11px; color: var(--wine); font-weight: 700; margin: 4px 0 6px; }
+  .hist-card .excerpt { font-size: 11px; color: var(--ink); line-height: 1.6; max-height: 60px; overflow: hidden; }
+  .hist-card .rating { margin-top: 10px; display: flex; gap: 6px; }
+  .rate-btn {
+    font-size: 10px; padding: 3px 8px; border-radius: 999px; border: 1px solid var(--line);
+    background: transparent; cursor: pointer; color: var(--muted);
+  }
+  .rate-btn.selected-good { background: #6B8E5A; color: #fff; border-color: #6B8E5A; }
+  .rate-btn.selected-bad { background: #A6564F; color: #fff; border-color: #A6564F; }
+  .empty-hist { font-size: 12px; color: var(--muted); padding: 20px 0; }
+
+  .modal-bg {
+    display: none; position: fixed; inset: 0; background: rgba(59,36,48,0.55);
+    z-index: 50; align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-bg.show { display: flex; }
+  .modal { background: var(--panel-solid); border-radius: 16px; padding: 26px; max-width: 560px; width: 100%; max-height: 80vh; overflow-y: auto; }
+  .modal-close { float: right; background: none; border: none; font-size: 18px; cursor: pointer; color: var(--muted); }
+
+  .status-msg { font-size: 12px; color: var(--muted); text-align: center; margin: 10px 0; min-height: 16px; }
+  .error-msg { font-size: 12px; color: #A6564F; text-align: center; margin: 10px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="eyebrow">Hiiro Generator</div>
+    <h1>集客ライティング生成｜角度検証パイプライン</h1>
+    <p>素材とペルソナを掛け合わせ、でぷれ式・表裏サンドイッチ構文で角度別コピーを生成する</p>
+  </header>
+
+  <div class="pipeline" id="pipeline">
+    <div class="stage" id="stage1">
+      <div class="num">01</div>
+      <div class="label">入力</div>
+      <div class="sub">素材 × ペルソナ</div>
+      <div class="dot"></div>
+    </div>
+    <div class="stage" id="stage2">
+      <div class="num">02</div>
+      <div class="label">STEP1 リサーチ</div>
+      <div class="sub">心理・痛点分析（内部）</div>
+      <div class="dot"></div>
+    </div>
+    <div class="stage" id="stage3">
+      <div class="num">03</div>
+      <div class="label">STEP2 生成</div>
+      <div class="sub">表→裏→実践→表 サンドイッチ</div>
+      <div class="dot"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>① 素材</h2>
+    <textarea id="material" placeholder="例：モラハラされたと訴える側が、実は先に相手を追い詰めているケースがある……" style="min-height:130px;"></textarea>
+
+    <h2 style="margin-top:20px;">② ペルソナ設定</h2>
+    <div class="row3">
+      <div>
+        <label>年代・属性</label>
+        <input id="persona-age" placeholder="例：30代前半 独身女性">
+      </div>
+      <div>
+        <label>立場</label>
+        <input id="persona-role" placeholder="例：管理職">
+      </div>
+      <div>
+        <label>状況（任意）</label>
+        <input id="persona-trait" placeholder="例：婚活中／交際3年目で停滞">
+      </div>
+    </div>
+
+    <div class="guardrail">
+      書き方の指針：リサーチに社会的背景が含まれても、読者向けの文章は本人の内側（回避傾向・解釈のクセ）に翻訳し直す。構造の話は他人事に感じられ、刺さらないため。
+    </div>
+
+    <button class="generate-btn" id="genBtn">STEP1：リサーチする</button>
+    <div class="status-msg" id="statusMsg"></div>
+    <div class="error-msg" id="errorMsg"></div>
+  </div>
+
+  <div class="panel" id="candidatePanel" style="display:none;">
+    <h2>STEP1リサーチ結果</h2>
+    <div class="situation-tag" id="situationTag"></div>
+    <div class="research-body show" id="researchPreview"></div>
+    <label id="candidateLabel">この中から角度を選んでSTEP2を書く</label>
+    <div class="quickstates" id="candidateChips"></div>
+  </div>
+
+  <div class="output" id="output">
+    <div class="angle-tag" id="angleTag"></div>
+
+    <div class="research-toggle" id="researchToggle">▸ STEP1リサーチメモを見る（内部用）</div>
+    <div class="research-body" id="researchBody"></div>
+
+    <div class="card card-hyo">
+      <div class="tag">表｜導入（共感フック）</div>
+      <p id="hyoIntro"></p>
+    </div>
+    <div class="card card-ura">
+      <div class="tag">裏｜本質の開示</div>
+      <p id="uraCore"></p>
+    </div>
+    <div class="card card-tips" id="tipsCard">
+      <div class="tag">実践｜今すぐできること</div>
+      <ul class="tips-list" id="tipsList"></ul>
+    </div>
+    <div class="card card-hyo2">
+      <div class="tag">表｜着地＋オファー</div>
+      <p id="hyoLanding"></p>
+    </div>
+  </div>
+
+  <div class="panel history-section">
+    <h2>推移（生成履歴）</h2>
+    <div class="desc">同じ素材でも角度を変えて複数生成し、どれが反応したか記録していく</div>
+    <div class="history-track" id="historyTrack">
+      <div class="empty-hist">まだ生成履歴はありません</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<script>
+let pendingStep1 = null; // { material, age, role, trait, research, candidates }
+
+const STATE_REFERENCE = `01 見捨てられ不安（愛情確認が取れていない）／02 自信のなさ／03 マンネリ・停滞感／04 決めつけ・すれ違い／05 被害者意識／06 独占欲・コントロール願望／07 世代間の価値観ズレ`;
+
+const REFRAME_PRINCIPLE = `書き方の指針（重要）：
+STEP1のリサーチに社会的背景・構造的要因が含まれていても、それをそのまま読者に見せる文章にはしないこと。
+理由は規則だからではなく、単純に「構造の話」は他人事に感じられて刺さらないから。読者が自分ごととして反応するのは、自分の内側（回避傾向・防衛パターン・解釈のクセ）に触れられたときだけ。
+なので、痛点の背景に構造的な要因があると分かっていても、書く角度は必ず「本人の内側で何が起きているか」に翻訳し直すこと。`;
+
+const CLARITY_PRINCIPLE = `わかりやすさの指針（重要）：
+抽象的な比喩・専門的な言い回し（脳科学的表現、心理学用語、カタカナの概念語の多用など）は避け、読者が今すぐ思い浮かべられる日常のワンシーン・具体的な行動や口癖に置き換えて説明すること。
+一文は短く区切り、一息で読める長さにする。二重否定や入れ子の留保表現は使わない。
+「裏」で開示する本質も、抽象論だけで終わらせず、具体的な場面・セリフ・行動に一度戻してから次に進むこと。`;
+
+const JISSEN_PRINCIPLE = `価値提供セクション（実践アクション）の指針（重要）：
+「裏」で開示した本質を受けて、読者が今日から一人でも実践できる具体的な行動を2〜3個示す。これは「有益である証明」として機能させ、売り込みの前に読者へ価値を渡すためのセクションである。
+
+最重要ポイント：これは一般的なアドバイスの羅列であってはならない。人の脳は、感情に触れられた直後に「では今、何をすればいいか」という具体的な行動が示されて初めて「自分ごと」として認識する。「裏」で開示したこのペルソナの感情・防衛心理（感情フィルター）を必ず一度通してから、その流れの続きとして行動を提案すること。感情の開示と行動提案の間に間（ま）を空けすぎないこと。
+
+各アクションは：
+- 今すぐ、一人でもできる小さな行動に絞る（明日からではなく「今日」「今すぐ」）
+- 「なぜそれをやると良いのか」を、このペルソナが今感じている感情の文脈に結び付けて一言添える
+- 抽象的な心構え（例：「自信を持とう」）ではなく、具体的な所作・言葉・問いかけの形にする（例：「〇〇と感じた瞬間に、△△と自分に問いかけてみる」）`;
+
+const SYSTEM_PROMPT_STEP1 = `あなたは集客ライティングの専門家です。ペルソナ心理リサーチを行い、必ずJSON形式のみで出力してください。前置き、説明文、Markdownのコードブロック記号は一切含めないでください。
+
+入力された素材と、指定されたペルソナ（年代・立場・状況）を掛け合わせて分析する。社会的背景・構造的要因が痛点に関わっているなら、それも含めて率直にリサーチすること。制限は設けない。
+
+まず、素材がどの状況タイプに近いかを判定する（参考カテゴリ：${STATE_REFERENCE}。当てはまらなければ自由に命名してよい）。
+
+そのうえで分析する：
+- このペルソナが抱えている回避傾向・防衛心理
+- 素材の構造が、このペルソナのどんな行動・口癖・思考パターンに置き換わるか
+- このペルソナが最も反応しそうな痛点の候補（損失回避／自尊心防衛／孤独感／比較／社会的背景に起因するもの　など、幅広く挙げる）
+
+以下のJSON形式のみで出力：
+{
+  "situation_tag": "判定した状況タイプ（15字以内）",
+  "research": "分析内容（回避傾向・行動置き換えを含む、250字程度）",
+  "candidate_angles": [
+    { "tag": "痛点タグ（10字以内）", "rationale": "この角度が刺さる理由（40字程度）" },
+    { "tag": "...", "rationale": "..." },
+    { "tag": "...", "rationale": "..." }
+  ]
+}`;
+
+const SYSTEM_PROMPT_STEP2 = `あなたは集客ライティングの専門家です。でぷれ式・表裏サンドイッチ構文で、指定された角度に絞ってライティングしてください。必ずJSON形式のみで出力してください。前置き、説明文、Markdownのコードブロック記号は一切含めないでください。
+
+${REFRAME_PRINCIPLE}
+
+${CLARITY_PRINCIPLE}
+
+${JISSEN_PRINCIPLE}
+
+指定された角度（痛点）1つだけに絞り、以下の構文で書く。他の角度に広げないこと。
+- 表（導入）：あるあるの症状・場面を、感情語彙（不安・怖い・焦り・苛立ち等）を使って生々しく描写する。原因は明かさない。
+- 裏（本質の開示）：本質構造を開示し、読者自身が当てはまるかもしれないという揺さぶりをかける。原因は本人の内側の回避傾向・解釈のクセに置く。
+- 実践（今すぐできること）：上記「価値提供セクション」の指針に従い、具体的アクションを2〜3個。
+- 表（着地）：もう一度日常に接続して着地し、単発の売り切りCTA（診断・セッション・限定オファー等）を置く。「この角度に反応したかを測る」ためのCTAとして設計する。
+
+注意：感情語彙は惜しまず使う。二重否定や入れ子の留保表現は使わない。一文は一息で読める長さにする。
+
+以下のJSON形式のみで出力：
+{
+  "hyo_intro": "表（導入）の本文",
+  "ura_core": "裏（本質の開示）の本文",
+  "jissen_actions": ["実践アクション1（感情文脈への一言＋具体的行動）", "実践アクション2", "実践アクション3"],
+  "hyo_landing": "表（着地＋CTA）の本文"
+}`;
+
+function setStage(n, state) {
+  const el = document.getElementById('stage' + n);
+  el.classList.remove('active', 'done');
+  if (state) el.classList.add(state);
+}
+
+function resetStages() {
+  [1,2,3].forEach(n => setStage(n, null));
+}
+
+// ▼▼▼ Cloudflare Workerをデプロイした後、発行されたURLに書き換えてください ▼▼▼
+// 例: "https://hiiro-relay.your-subdomain.workers.dev"
+const WORKER_URL = "https://billowing-wood-8ad.nanbasuri891.workers.dev";
+
+// window.storage（Artifacts専用API）の代わりに、Worker経由でKVを読み書きする薄いラッパー
+const storage = {
+  async set(key, value) {
+    const res = await fetch(WORKER_URL + "/history/set", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ key, value }),
+    });
+    if (!res.ok) throw new Error("履歴の保存に失敗しました");
+    return await res.json();
+  },
+  async get(key) {
+    const res = await fetch(WORKER_URL + "/history/get?key=" + encodeURIComponent(key));
+    if (!res.ok) throw new Error("履歴の取得に失敗しました");
+    return await res.json();
+  },
+  async list(prefix) {
+    const res = await fetch(WORKER_URL + "/history/list?prefix=" + encodeURIComponent(prefix));
+    if (!res.ok) throw new Error("履歴一覧の取得に失敗しました");
+    return await res.json();
+  },
+};
+
+async function callClaude(systemPrompt, userMessage) {
+  const response = await fetch(WORKER_URL + "/generate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "claude-sonnet-4-6",
+      max_tokens: 1000,
+      system: systemPrompt,
+      messages: [{ role: "user", content: userMessage }]
+    })
+  });
+  const data = await response.json();
+  if (!data.content) {
+    throw new Error(data.error || "サーバーから予期しない応答がありました");
+  }
+  const text = data.content.map(b => b.text || "").join("");
+  const clean = text.replace(/```json|```/g, "").trim();
+  return JSON.parse(clean);
+}
+
+async function generateStep1() {
+  const material = document.getElementById('material').value.trim();
+  const age = document.getElementById('persona-age').value.trim();
+  const role = document.getElementById('persona-role').value.trim();
+  const trait = document.getElementById('persona-trait').value.trim();
+  const errorEl = document.getElementById('errorMsg');
+  const statusEl = document.getElementById('statusMsg');
+  errorEl.textContent = "";
+
+  if (!material) {
+    errorEl.textContent = "素材を入力してください。";
+    return;
+  }
+
+  const btn = document.getElementById('genBtn');
+  btn.disabled = true;
+  document.getElementById('output').classList.remove('show');
+  document.getElementById('candidatePanel').style.display = 'none';
+  resetStages();
+  setStage(1, 'done');
+  setStage(2, 'active');
+  statusEl.textContent = "STEP1：状況判定とリサーチ中……";
+
+  const userMessage = `【素材】\n${material}\n\n【ペルソナ】\n年代・属性：${age || "未指定"}\n立場：${role || "未指定"}\n状況：${trait || "未指定"}`;
+
+  try {
+    const result = await callClaude(SYSTEM_PROMPT_STEP1, userMessage);
+    setStage(2, 'done');
+    statusEl.textContent = "STEP1完了。角度を選んでください。";
+
+    pendingStep1 = { material, age, role, trait, research: result.research, candidates: result.candidate_angles, situationTag: result.situation_tag };
+
+    document.getElementById('situationTag').textContent = "状況：" + result.situation_tag;
+    document.getElementById('researchPreview').textContent = result.research;
+    const chipsEl = document.getElementById('candidateChips');
+    chipsEl.innerHTML = "";
+
+    result.candidate_angles.forEach(c => {
+      const btn2 = document.createElement('button');
+      btn2.className = 'qs-btn';
+      btn2.textContent = c.tag;
+      btn2.title = c.rationale;
+      btn2.onclick = () => generateStep2(c.tag, c.rationale);
+      chipsEl.appendChild(btn2);
+    });
+    document.getElementById('candidatePanel').style.display = 'block';
+
+  } catch (err) {
+    console.error(err);
+    errorEl.textContent = "STEP1に失敗しました。もう一度お試しください。";
+    resetStages();
+    statusEl.textContent = "";
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+async function generateStep2(angleTag, rationale) {
+  if (!pendingStep1) return;
+  const { material, age, role, trait, research, situationTag } = pendingStep1;
+  const statusEl = document.getElementById('statusMsg');
+  const errorEl = document.getElementById('errorMsg');
+  errorEl.textContent = "";
+  setStage(3, 'active');
+  statusEl.textContent = `STEP2：「${angleTag}」の角度で表裏サンドイッチを生成中……`;
+
+  const userMessage = `【素材】\n${material}\n\n【ペルソナ】\n年代・属性：${age || "未指定"}\n立場：${role || "未指定"}\n状況：${trait || "未指定"}\n\n【STEP1リサーチ】\n${research}\n\n【指定角度】\n${angleTag}（理由：${rationale || "指定"}）`;
+
+  try {
+    const result = await callClaude(SYSTEM_PROMPT_STEP2, userMessage);
+    result.angle_tag = angleTag;
+    result.research = research;
+    result.situation_tag = situationTag;
+    setStage(3, 'done');
+    statusEl.textContent = "生成完了";
+
+    renderOutput(result, material, age, role, trait);
+    await saveGeneration(result, material, age, role, trait);
+    await loadHistory();
+  } catch (err) {
+    console.error(err);
+    errorEl.textContent = "STEP2に失敗しました。もう一度お試しください。";
+    statusEl.textContent = "";
+  }
+}
+
+function renderOutput(result, material, age, role, trait) {
+  document.getElementById('angleTag').textContent = "角度：" + result.angle_tag;
+  document.getElementById('researchBody').textContent = result.research;
+  document.getElementById('hyoIntro').textContent = result.hyo_intro;
+  document.getElementById('uraCore').textContent = result.ura_core;
+  document.getElementById('hyoLanding').textContent = result.hyo_landing;
+
+  const tipsList = document.getElementById('tipsList');
+  const tipsCard = document.getElementById('tipsCard');
+  tipsList.innerHTML = "";
+  const actions = Array.isArray(result.jissen_actions) ? result.jissen_actions : [];
+  if (actions.length > 0) {
+    actions.forEach(a => {
+      const li = document.createElement('li');
+      li.textContent = a;
+      tipsList.appendChild(li);
+    });
+    tipsCard.style.display = '';
+  } else {
+    tipsCard.style.display = 'none';
+  }
+
+  document.getElementById('output').classList.add('show');
+  currentGeneration = { result, material, age, role, trait };
+}
+
+document.getElementById('researchToggle').onclick = () => {
+  const body = document.getElementById('researchBody');
+  const shown = body.classList.toggle('show');
+  document.getElementById('researchToggle').textContent = (shown ? '▾' : '▸') + ' STEP1リサーチメモを見る（内部用）';
+};
+
+async function saveGeneration(result, material, age, role, trait) {
+  try {
+    const id = 'hiiro_gen:' + Date.now();
+    const record = {
+      timestamp: Date.now(),
+      material, age, role, trait,
+      ...result,
+      rating: null
+    };
+    await storage.set(id, JSON.stringify(record));
+  } catch (e) {
+    console.error('保存に失敗しました', e);
+  }
+}
+
+async function loadHistory() {
+  const track = document.getElementById('historyTrack');
+  try {
+    const listResult = await storage.list('hiiro_gen:');
+    if (!listResult || !listResult.keys || listResult.keys.length === 0) {
+      track.innerHTML = '<div class="empty-hist">まだ生成履歴はありません</div>';
+      return;
+    }
+    const keys = [...listResult.keys].sort().reverse();
+    track.innerHTML = "";
+    for (const key of keys) {
+      try {
+        const item = await storage.get(key);
+        if (!item) continue;
+        const record = JSON.parse(item.value);
+        track.appendChild(buildHistCard(key, record));
+      } catch (e) { /* skip broken entries */ }
+    }
+  } catch (e) {
+    track.innerHTML = '<div class="empty-hist">履歴の読み込みに失敗しました</div>';
+  }
+}
+
+function buildHistCard(key, record) {
+  const card = document.createElement('div');
+  card.className = 'hist-card';
+  const d = new Date(record.timestamp);
+  const timeStr = `${d.getMonth()+1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`;
+
+  card.innerHTML = `
+    <div class="time">${timeStr}｜${record.age || '未指定'}</div>
+    <div class="tag">${record.angle_tag || ''}</div>
+    <div class="excerpt">${(record.hyo_intro || '').slice(0, 60)}…</div>
+    <div class="rating">
+      <button class="rate-btn ${record.rating === 'good' ? 'selected-good' : ''}" data-rate="good">反応あり</button>
+      <button class="rate-btn ${record.rating === 'bad' ? 'selected-bad' : ''}" data-rate="bad">反応なし</button>
+    </div>
+  `;
+
+  card.querySelector('.excerpt').onclick = () => openModal(record);
+  card.querySelectorAll('.rate-btn').forEach(btn => {
+    btn.onclick = async (e) => {
+      e.stopPropagation();
+      record.rating = record.rating === btn.dataset.rate ? null : btn.dataset.rate;
+      try {
+        await storage.set(key, JSON.stringify(record));
+        loadHistory();
+      } catch (err) { console.error(err); }
+    };
+  });
+
+  return card;
+}
+
+function openModal(record) {
+  const modal = document.getElementById('modalContent');
+  const actions = Array.isArray(record.jissen_actions) ? record.jissen_actions : [];
+  const tipsHtml = actions.length > 0
+    ? `<div class="card card-tips"><div class="tag">実践｜今すぐできること</div><ul class="tips-list">${actions.map(a => `<li>${a}</li>`).join('')}</ul></div>`
+    : '';
+  modal.innerHTML = `
+    <button class="modal-close" onclick="document.getElementById('modalBg').classList.remove('show')">×</button>
+    <div class="angle-tag">角度：${record.angle_tag}</div>
+    <div class="card card-hyo"><div class="tag">表｜導入</div><p>${record.hyo_intro}</p></div>
+    <div class="card card-ura"><div class="tag">裏｜本質</div><p>${record.ura_core}</p></div>
+    ${tipsHtml}
+    <div class="card card-hyo2"><div class="tag">表｜着地</div><p>${record.hyo_landing}</p></div>
+  `;
+  document.getElementById('modalBg').classList.add('show');
+}
+document.getElementById('modalBg').onclick = (e) => {
+  if (e.target.id === 'modalBg') e.target.classList.remove('show');
+};
+
+document.getElementById('genBtn').onclick = generateStep1;
+
+loadHistory();
+</script>
+</body>
+</html>
