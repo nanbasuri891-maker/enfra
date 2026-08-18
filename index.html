@@ -624,32 +624,6 @@
     letter-spacing:.12em;
     color:var(--c6);
     margin:0 0 .4rem;
-    opacity:0;
-  }
-
-  .binosusume .lines p.question-line.is-visible{
-    animation:swayIn 1.6s cubic-bezier(.22,.61,.36,1) forwards;
-  }
-
-  @keyframes swayIn{
-    0%{
-      opacity:0;
-      transform:translateY(16px) rotate(-2deg);
-    }
-    35%{
-      opacity:1;
-      transform:translateY(-5px) rotate(1.4deg);
-    }
-    60%{
-      transform:translateY(2px) rotate(-0.8deg);
-    }
-    80%{
-      transform:translateY(-1px) rotate(0.4deg);
-    }
-    100%{
-      opacity:1;
-      transform:translateY(0) rotate(0deg);
-    }
   }
 
   .binosusume .lines p.reveal-term{
@@ -1217,14 +1191,14 @@
 
     <div class="lines">
       <p class="reveal-float">美脳は<br>知覚の歪みが少ない状態。</p>
-      <p class="reveal-float">この知覚を歪める起こりを<br>重心と呼びます。</p>
-      <p class="reveal-float">美脳調律は<br>誰にでも開かれています。</p>
+      <p class="reveal-float">沈み込みを起こす<br>起こりを<br>重心と呼びます。</p>
+      <p class="reveal-float">重心が起こすゆらぎが<br>知覚を歪めていきます。</p>
+      <p class="question-line reveal-float">それは愛か<br>我執か</p>
     </div>
 
     <div class="mini-divider reveal-float"></div>
 
     <div class="lines">
-      <p class="question-line">それは愛か<br>我執か</p>
       <p class="reveal-float">欲求は<br>見えないけど<br>消えたわけじゃない。</p>
       <p class="reveal-float">自分を語る<br>熱量と沈黙のはざまに。</p>
     </div>
@@ -1547,7 +1521,7 @@
   <!-- JS: 重心のはなし以降、フローティング表示（スクロール検知） -->
   <script>
   (function(){
-    var targets = document.querySelectorAll('.reveal-float, .question-line');
+    var targets = document.querySelectorAll('.reveal-float');
     if(!targets.length) return;
 
     if(!('IntersectionObserver' in window)){
