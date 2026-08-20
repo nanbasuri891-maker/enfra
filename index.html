@@ -322,6 +322,51 @@
     margin:1.4rem auto 1.2rem;
   }
 
+  /* ---------- HERO STATEMENT：美脳メッセージと縁起の文章を交互に切り替え表示 ---------- */
+  .hsc-wrap{
+    position:relative;
+    min-height:26rem;
+  }
+
+  .hsc-group{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 1.1s ease;
+  }
+
+  .hsc-group.is-active{
+    opacity:1;
+    pointer-events:auto;
+    position:relative;
+  }
+
+  .hsc-term{
+    font-family:"Shippori Mincho", serif;
+    font-weight:700;
+    font-size:clamp(1.6rem, 4vw, 2.1rem);
+    letter-spacing:.16em;
+    line-height:1.5;
+    margin:0 0 1.4rem;
+    background:var(--duo-gradient);
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+    color:var(--gold);
+  }
+
+  .hsc-group .lines + .lines{
+    margin-top:1.4rem;
+  }
+
+  @media (max-width:480px){
+    .hsc-wrap{ min-height:30rem; }
+  }
+
   .story-link{
     display:inline-block;
     font-family:"Noto Sans JP", sans-serif;
@@ -637,6 +682,16 @@
     background-clip:text;
     -webkit-text-fill-color:transparent;
     color:var(--gold);
+  }
+
+  .binosusume-heading-lead{
+    font-family:"Zen Maru Gothic", sans-serif;
+    font-weight:600;
+    font-size:clamp(1.05rem, 2.4vw, 1.3rem);
+    letter-spacing:.1em;
+    line-height:1.7;
+    color:var(--ink);
+    margin:0 0 .6rem;
   }
 
   .binosusume .catchcopy-sub{
@@ -974,27 +1029,54 @@
   </section>
 
   <div class="hero-statement" id="heroStatement">
-    <div class="title-ornament"></div>
-    <p class="statement-lead">人生100年、どうつながる？</p>
-    <div class="lines">
-      <p>今の悩み、過去の記憶、社会での違和感</p>
-      <p>バラバラに見える点が</p>
-      <p>実は一つの形として重なり</p>
-      <p>起こっていることに気づいた時</p>
-      <p>縁は静かに</p>
-      <p>繋がりはじめる</p>
+    <div class="hsc-wrap" id="heroStatementCycle">
+      <div class="hsc-group is-active">
+        <div class="title-ornament"></div>
+        <p class="statement-lead">現代人の忙しい脳を<br>開放して<br>循環させるための</p>
+        <p class="hsc-term">美脳のススメ</p>
+        <div class="lines">
+          <p>AI・SNSが当たり前の日常</p>
+          <p>画像・動画・主語のない会話</p>
+          <p>ヴィジュアルコミュニケーションが引き起こす</p>
+          <p>脳のひっ迫。</p>
+        </div>
+        <div class="lines">
+          <p>見る量を、間引く。</p>
+          <p>情報を減らして、繋がりを増やす。</p>
+          <p>脳のひっ迫を間引く、調律する。</p>
+        </div>
+      </div>
+      <div class="hsc-group">
+        <div class="title-ornament"></div>
+        <p class="statement-lead">人生100年、どうつながる？</p>
+        <div class="lines">
+          <p>今の悩み、過去の記憶、社会での違和感</p>
+          <p>バラバラに見える点が</p>
+          <p>実は一つの形として重なり</p>
+          <p>起こっていることに気づいた時</p>
+          <p>縁は静かに</p>
+          <p>繋がりはじめる</p>
+        </div>
+        <div class="divider"></div>
+        <a class="story-link" href="https://note.com/fractal_hiiro" target="_blank" rel="noopener">ブランディングストーリーはこちら</a>
+      </div>
     </div>
-    <div class="divider"></div>
-    <a class="story-link" href="https://note.com/fractal_hiiro" target="_blank" rel="noopener">ブランディングストーリーはこちら</a>
   </div>
 
   <!-- 美脳のススメ（イントロ） -->
   <section class="binosusume binosusume-intro">
     <a href="https://nanbasuri891-maker.github.io/bino/guide.html"><img class="binosusume-logo" src="assets/logo-binoh.png" alt="美脳調律"></a>
+    <p class="statement-lead">現代人の忙しい脳を<br>開放して<br>循環させるための</p>
     <h2>美脳のススメ</h2>
     <div class="title-ornament"></div>
 
-    <p class="catchcopy-sub">現代人の<br>いそがしくてうごかない脳を<br>解放して<br>成長させる</p>
+    <p class="catchcopy-sub">AI・SNSが当たり前の日常<br>画像・動画・主語のない会話<br>ヴィジュアルコミュニケーションが引き起こす<br>脳のひっ迫。</p>
+
+    <div class="lines">
+      <p class="strong">見る量を、間引く。</p>
+      <p class="strong">情報を減らして、繋がりを増やす。</p>
+      <p class="strong">脳のひっ迫を間引く、調律する。</p>
+    </div>
 
     <div class="binou-audio">
       <p class="binou-audio-label">30秒でわかる美脳</p>
@@ -1040,8 +1122,6 @@
   <!-- 視座 -->
   <section class="binosusume shiza-block">
 
-    <p class="sub-eyebrow">視座（関係性トランス）</p>
-    <h3 class="sub-heading">視座</h3>
     <div class="title-ornament"></div>
 
     <div class="lines">
@@ -1185,8 +1265,6 @@
   <!-- 関係満足度 -->
   <section class="binosusume kankei-block">
 
-    <p class="sub-eyebrow reveal-float">非公式のコミュニケーション</p>
-    <h3 class="sub-heading reveal-float">重心のはなし</h3>
     <div class="title-ornament reveal-float"></div>
 
     <div class="lines">
@@ -1199,7 +1277,7 @@
     <div class="mini-divider reveal-float"></div>
 
     <div class="lines">
-      <p class="reveal-float">欲求は<br>見えないけど<br>消えたわけじゃない。</p>
+      <p class="reveal-float">欲求は目には映らない。<br>けど<br>消えたわけじゃない。</p>
       <p class="reveal-float">自分を語る<br>熱量と沈黙のはざまに。</p>
     </div>
 
@@ -1241,6 +1319,30 @@
       var heroStatement = document.getElementById('heroStatement');
       var soundToggle = document.getElementById('heroSoundToggle');
       var replayToggle = document.getElementById('heroReplayToggle');
+      var hscWrap = document.getElementById('heroStatementCycle');
+      var hscGroups = hscWrap ? hscWrap.querySelectorAll('.hsc-group') : [];
+      var hscIndex = 0;
+      var hscInterval = null;
+
+      function startHeroStatementCycle() {
+        if (!hscGroups.length || hscInterval) return;
+        hscInterval = setInterval(function(){
+          hscGroups[hscIndex].classList.remove('is-active');
+          hscIndex = (hscIndex + 1) % hscGroups.length;
+          hscGroups[hscIndex].classList.add('is-active');
+        }, 6500);
+      }
+
+      function stopHeroStatementCycle() {
+        if (hscInterval) {
+          clearInterval(hscInterval);
+          hscInterval = null;
+        }
+        hscIndex = 0;
+        hscGroups.forEach(function(el, i){
+          el.classList.toggle('is-active', i === 0);
+        });
+      }
 
       function revealAfterVideo() {
         if (heroSection) {
@@ -1249,6 +1351,7 @@
         if (heroStatement) {
           heroStatement.classList.add('is-revealed');
         }
+        startHeroStatementCycle();
       }
 
       if (heroVideo) {
@@ -1271,6 +1374,7 @@
           if (heroStatement) {
             heroStatement.classList.remove('is-revealed');
           }
+          stopHeroStatementCycle();
           heroVideo.currentTime = 0;
           heroVideo.play();
         });
