@@ -186,10 +186,7 @@
   }
 
   .hero.video-ended .logotype{
-    opacity:0;
-    max-height:0;
     margin-top:6vh;
-    pointer-events:none;
   }
 
   @keyframes fadeIn{
@@ -260,7 +257,7 @@
     transform:translateY(0);
     max-height:1200px;
     pointer-events:auto;
-    padding:3.4rem 1.5rem 2.4rem;
+    padding:3.4rem 1.5rem 1rem;
   }
 
   .statement h2,
@@ -415,20 +412,26 @@
     border-radius:24px;
   }
 
-  .hsc-flower::before{
-    content:"";
-    position:absolute;
-    inset:-1rem;
-    background:url("assets/flower-bg.png") center / cover no-repeat;
-    opacity:.16;
-    z-index:0;
-    border-radius:24px;
-    pointer-events:none;
+  .hsc-flower-frame{
+    position:relative;
+    width:100%;
+    max-width:420px;
+    height:260px;
+    margin:0 auto 1.4rem;
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 30px 60px -25px rgba(43,46,51,.25);
   }
 
-  .hsc-flower > *{
-    position:relative;
-    z-index:1;
+  .hsc-flower-frame img{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+
+  @media (max-width:480px){
+    .hsc-flower-frame{ height:220px; }
   }
 
   .story-link{
@@ -822,7 +825,7 @@
 
   /* ---------- 視座 ---------- */
   .shiza-block{
-    padding-top:4rem;
+    padding-top:1.5rem;
     padding-bottom:0.5rem;
   }
 
@@ -1230,9 +1233,8 @@
           </p>
           <button type="button" class="binojp-open caption-toggle" id="shizaCaptionToggle" aria-expanded="false" aria-controls="shizaCaption">テキストで読む / open</button>
         </div>
-      </div>
-      <div class="hsc-group">
-        <div class="title-ornament"></div>
+
+        <div class="title-ornament" style="margin-top:1.8rem;"></div>
         <p class="statement-lead">美脳の哲学を<br>そのまま覗く</p>
         <div class="hsc-frame">
           <iframe src="https://nanbasuri891-maker.github.io/bino/binojp/" loading="lazy" title="Bi-nō 美脳 — A Mind That Reflects, Not Distorts"></iframe>
@@ -1240,6 +1242,9 @@
       </div>
       <div class="hsc-group hsc-flower">
         <div class="title-ornament"></div>
+        <div class="hsc-flower-frame">
+          <img src="assets/flower-bg.png" alt="縁起とフラクタル">
+        </div>
         <div class="lines">
           <p>縁起とフラクタルは<br>有機と無機が<br>織りなす自然界の<br>派生モデル</p>
           <p>予測が効かない事象を<br>検証（スコアリング）<br>可能にする<br>美脳調律プログラムの<br>採用モデル</p>
