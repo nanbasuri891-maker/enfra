@@ -661,7 +661,8 @@
     font-weight:600;
   }
 
-  .binosusume .lines p.question-line{
+  .binosusume .lines p.question-line,
+  .hero-statement .lines p.question-line{
     font-family:"Shippori Mincho", serif;
     font-style:italic;
     font-weight:600;
@@ -1045,6 +1046,7 @@
           <p>情報を減らして、繋がりを増やす。</p>
           <p>脳のひっ迫を間引く、調律する。</p>
         </div>
+        <a href="https://nanbasuri891-maker.github.io/bino/guide.html" style="margin-top:1.4rem;display:block;"><img class="binosusume-logo" src="assets/logo-binoh.png" alt="美脳調律" style="margin:0 auto;"></a>
       </div>
       <div class="hsc-group">
         <div class="title-ornament"></div>
@@ -1060,24 +1062,19 @@
         <div class="divider"></div>
         <a class="story-link" href="https://note.com/fractal_hiiro" target="_blank" rel="noopener">ブランディングストーリーはこちら</a>
       </div>
+      <div class="hsc-group">
+        <p class="question-line">それは愛か<br>我執か</p>
+        <div class="lines">
+          <p>欲求は<br>見えないけど<br>消えたわけじゃない。</p>
+          <p>自分を語る<br>熱量と沈黙のはざまに。</p>
+        </div>
+        <a class="reveal-term-cta" href="https://nanbasuri891-maker.github.io/bino/un/" target="_blank" rel="noopener">非公式の<br>コミュニケーション<span class="suffix">といいます ─ くわしく見る</span></a>
+      </div>
     </div>
   </div>
 
   <!-- 美脳のススメ（イントロ） -->
   <section class="binosusume binosusume-intro">
-    <a href="https://nanbasuri891-maker.github.io/bino/guide.html"><img class="binosusume-logo" src="assets/logo-binoh.png" alt="美脳調律"></a>
-    <p class="statement-lead">現代人の忙しい脳を<br>開放して<br>循環させるための</p>
-    <h2>美脳のススメ</h2>
-    <div class="title-ornament"></div>
-
-    <p class="catchcopy-sub">AI・SNSが当たり前の日常<br>画像・動画・主語のない会話<br>ヴィジュアルコミュニケーションが引き起こす<br>脳のひっ迫。</p>
-
-    <div class="lines">
-      <p class="strong">見る量を、間引く。</p>
-      <p class="strong">情報を減らして、繋がりを増やす。</p>
-      <p class="strong">脳のひっ迫を間引く、調律する。</p>
-    </div>
-
     <div class="binou-audio">
       <p class="binou-audio-label">30秒でわかる美脳</p>
       <div class="binou-audio-visual" id="binouPlayToggle" role="button" tabindex="0" aria-label="音声を再生">
@@ -1230,59 +1227,6 @@
     </div>
 
     <div class="mini-divider"></div>
-
-    <div class="binou-audio">
-      <p class="binou-audio-label">30秒でわかる視座（フレームワーク）</p>
-      <div class="binou-audio-visual" id="shizaPlayToggle" role="button" tabindex="0" aria-label="音声を再生">
-        <img class="binou-audio-portrait" src="assets/yinyang.png" alt="視座 ナビゲーター">
-        <span class="binou-audio-playhint" aria-hidden="true">
-          <svg class="icon-play" width="14" height="16" viewBox="0 0 12 14" fill="none"><path d="M1 1.2C1 0.42 1.86-0.05 2.52 0.36L10.7 5.66C11.32 6.05 11.32 6.95 10.7 7.34L2.52 12.64C1.86 13.05 1 12.58 1 11.8V1.2Z" fill="currentColor"/></svg>
-          <svg class="icon-pause" width="14" height="16" viewBox="0 0 12 14" fill="none" style="display:none"><rect x="1" y="0.5" width="3.4" height="13" rx="1" fill="currentColor"/><rect x="7.6" y="0.5" width="3.4" height="13" rx="1" fill="currentColor"/></svg>
-        </span>
-      </div>
-
-      <div class="binou-audio-bar">
-        <div class="binou-audio-track" id="shizaTrack">
-          <div class="binou-audio-fill" id="shizaFill"></div>
-        </div>
-        <span class="binou-audio-time" id="shizaTime">0:00 / 0:00</span>
-      </div>
-
-      <audio id="shizaAudio" preload="none">
-        <source src="assets/audio-shiza-framework.mp3" type="audio/mpeg">
-        お使いのブラウザは音声再生に対応していません。
-      </audio>
-
-      <p class="binou-audio-caption" id="shizaCaption" hidden>
-        日本には、「間人文化」があります。自分と相手の境界が、驚くほど滑らかにできている文化。空気を読む。場の気配を感じる。相手の心情を汲む。それ自体は、繊細な感受性のはずでした。<br><br>
-        けれど、気づけば――友人の不機嫌も、家族の沈黙も、職場の空気も、いつの間にか自分の中に持ち帰っている。"他人事"のはずのものが、いつのまにか"自分事"になっている。それは優しさというより、まだ外し方を知らないだけかもしれません。<br><br>
-        視座は、その"引き取ってしまったもの"に気づき、そっと元の場所に返してあげる簡単なワークです。数分、姿勢と呼吸を整えるだけで、輪郭が、静かに見えてきます。
-      </p>
-      <button type="button" class="binojp-open caption-toggle" id="shizaCaptionToggle" aria-expanded="false" aria-controls="shizaCaption">テキストで読む / open</button>
-    </div>
-  </section>
-
-  <!-- 関係満足度 -->
-  <section class="binosusume kankei-block">
-
-    <div class="title-ornament reveal-float"></div>
-
-    <div class="lines">
-      <p class="reveal-float">美脳は<br>知覚の歪みが少ない状態。</p>
-      <p class="reveal-float">沈み込みを起こす<br>起こりを<br>重心と呼びます。</p>
-      <p class="reveal-float">重心が起こすゆらぎが<br>知覚を歪めていきます。</p>
-      <p class="question-line reveal-float">それは愛か<br>我執か</p>
-    </div>
-
-    <div class="mini-divider reveal-float"></div>
-
-    <div class="lines">
-      <p class="reveal-float">欲求は目には映らない。<br>けど<br>消えたわけじゃない。</p>
-      <p class="reveal-float">自分を語る<br>熱量と沈黙のはざまに。</p>
-    </div>
-
-    <a class="reveal-term-cta reveal-float" href="https://nanbasuri891-maker.github.io/bino/un/" target="_blank" rel="noopener">非公式の<br>コミュニケーション<span class="suffix">といいます ─ くわしく見る</span></a>
-
   </section>
 
   <!-- CLOSING STATEMENT -->
