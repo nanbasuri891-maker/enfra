@@ -410,6 +410,36 @@
     .hsc-frame{ height:300px; }
   }
 
+  /* ---------- hsc-wrap ナビゲーション（ドット＋ユーザー操作） ---------- */
+  .hsc-dots{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:.55rem;
+    margin-top:1.6rem;
+    padding-bottom:.2rem;
+  }
+
+  .hsc-dot{
+    width:7px;
+    height:7px;
+    padding:0;
+    border:0;
+    border-radius:50%;
+    background:var(--line);
+    cursor:pointer;
+    transition:background .35s ease, transform .35s ease;
+  }
+
+  .hsc-dot:hover{
+    background:var(--gold-soft);
+  }
+
+  .hsc-dot.is-active{
+    background:var(--gold);
+    transform:scale(1.35);
+  }
+
   /* ---------- hsc-group内 花の画像を背景に敷くスライド ---------- */
   .hsc-flower{
     position:relative;
@@ -1203,13 +1233,15 @@
           <p>沈み込みを起こす<br>起こりを<br>重心と呼びます。</p>
           <p>重心が起こすゆらぎが<br>知覚を歪めていきます。</p>
         </div>
-
-        <div class="lines" style="margin-top:1.4rem;">
+      </div>
+      <div class="hsc-group">
+        <div class="lines">
           <p>視座は階層を移動して<br>世界の整合性をとる視点</p>
           <p>視座のフレームワークは<br>この知覚を整える<br>ごく初歩的な動きのこと。</p>
         </div>
-
-        <div class="binou-audio" style="margin-top:1.4rem;">
+      </div>
+      <div class="hsc-group">
+        <div class="binou-audio">
           <p class="binou-audio-label">30秒でわかる視座（フレームワーク）</p>
           <div class="binou-audio-visual" id="shizaPlayToggle" role="button" tabindex="0" aria-label="音声を再生">
             <img class="binou-audio-portrait" src="assets/yinyang.png" alt="視座 ナビゲーター">
@@ -1238,8 +1270,9 @@
           </p>
           <button type="button" class="binojp-open caption-toggle" id="shizaCaptionToggle" aria-expanded="false" aria-controls="shizaCaption">テキストで読む / open</button>
         </div>
-
-        <div class="title-ornament" style="margin-top:1.8rem;"></div>
+      </div>
+      <div class="hsc-group">
+        <div class="title-ornament"></div>
         <p class="statement-lead">美脳の哲学を<br>そのまま覗く</p>
         <div class="hsc-frame">
           <iframe src="https://nanbasuri891-maker.github.io/bino/binojp/" loading="lazy" title="Bi-nō 美脳 — A Mind That Reflects, Not Distorts"></iframe>
@@ -1258,6 +1291,8 @@
         </div>
       </div>
     </div>
+
+    <div class="hsc-dots" id="hscDots" role="tablist" aria-label="セクションを選ぶ"></div>
   </div>
 
   <!-- 視座 -->
@@ -1384,26 +1419,101 @@
       var replayToggle = document.getElementById('heroReplayToggle');
       var hscWrap = document.getElementById('heroStatementCycle');
       var hscGroups = hscWrap ? hscWrap.querySelectorAll('.hsc-group') : [];
+      var hscDotsWrap = document.getElementById('hscDots');
+      var hscDots = [];
       var hscIndex = 0;
       var hscInterval = null;
+      var hscResumeTimer = null;
+      var hscUserHeld = false; // 音声再生など「今はユーザーが見ている」状態
+
+      // ドットを生成
+      if (hscDotsWrap && hscGroups.length) {
+        hscGroups.forEach(function(el, i){
+          var dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'hsc-dot' + (i === 0 ? ' is-active' : '');
+          dot.setAttribute('role', 'tab');
+          dot.setAttribute('aria-label', 'セクション ' + (i + 1));
+          dot.addEventListener('click', function(){
+            goToHscSlide(i);
+            pauseHeroStatementCycle();
+            scheduleHeroStatementResume();
+          });
+          hscDotsWrap.appendChild(dot);
+          hscDots.push(dot);
+        });
+      }
+
+      function setHscActive(i) {
+        hscGroups[hscIndex].classList.remove('is-active');
+        hscIndex = i;
+        hscGroups[hscIndex].classList.add('is-active');
+        hscDots.forEach(function(d, di){
+          d.classList.toggle('is-active', di === hscIndex);
+        });
+      }
+
+      function goToHscSlide(i) {
+        if (!hscGroups.length || i === hscIndex) return;
+        setHscActive(i);
+      }
 
       function startHeroStatementCycle() {
         if (!hscGroups.length || hscInterval) return;
         hscInterval = setInterval(function(){
-          hscGroups[hscIndex].classList.remove('is-active');
-          hscIndex = (hscIndex + 1) % hscGroups.length;
-          hscGroups[hscIndex].classList.add('is-active');
+          if (hscUserHeld) return; // 音声再生中などは進めない
+          setHscActive((hscIndex + 1) % hscGroups.length);
         }, 6500);
       }
 
-      function stopHeroStatementCycle() {
+      // 一時停止のみ（現在の位置は保持）— ユーザーがドット操作／音声再生／iframe操作中に使う
+      function pauseHeroStatementCycle() {
         if (hscInterval) {
           clearInterval(hscInterval);
           hscInterval = null;
         }
-        hscIndex = 0;
-        hscGroups.forEach(function(el, i){
-          el.classList.toggle('is-active', i === 0);
+        if (hscResumeTimer) {
+          clearTimeout(hscResumeTimer);
+          hscResumeTimer = null;
+        }
+      }
+
+      // しばらく操作がなければ、自動的に自動送りへ戻る
+      function scheduleHeroStatementResume(delay) {
+        if (hscResumeTimer) clearTimeout(hscResumeTimer);
+        hscResumeTimer = setTimeout(function(){
+          hscResumeTimer = null;
+          startHeroStatementCycle();
+        }, delay || 7000);
+      }
+
+      function stopHeroStatementCycle() {
+        pauseHeroStatementCycle();
+        hscUserHeld = false;
+        setHscActive(0);
+      }
+
+      // 音声プレイヤー（30秒でわかる美脳／視座）から呼び出せるように公開
+      window.hscHoldForAudio = function(playing) {
+        hscUserHeld = playing;
+        if (playing) {
+          pauseHeroStatementCycle();
+        } else {
+          scheduleHeroStatementResume(2500);
+        }
+      };
+
+      // ユーザーがこのエリアに触れている間は自動送りを止め、離れたら自動的に再開する
+      if (hscWrap) {
+        ['pointerenter', 'touchstart'].forEach(function(evt){
+          hscWrap.addEventListener(evt, function(){
+            pauseHeroStatementCycle();
+          }, { passive: true });
+        });
+        ['pointerleave', 'touchend'].forEach(function(evt){
+          hscWrap.addEventListener(evt, function(){
+            if (!hscUserHeld) scheduleHeroStatementResume();
+          }, { passive: true });
         });
       }
 
@@ -1503,8 +1613,8 @@
       if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); togglePlay(); }
     });
 
-    audio.addEventListener('play', function(){ setPlayingUI(true); });
-    audio.addEventListener('pause', function(){ setPlayingUI(false); });
+    audio.addEventListener('play', function(){ setPlayingUI(true); if (window.hscHoldForAudio) window.hscHoldForAudio(true); });
+    audio.addEventListener('pause', function(){ setPlayingUI(false); if (window.hscHoldForAudio) window.hscHoldForAudio(false); });
     audio.addEventListener('ended', function(){
       setPlayingUI(false);
       fill.style.width = '0%';
@@ -1565,8 +1675,8 @@
       if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); togglePlay(); }
     });
 
-    audio.addEventListener('play', function(){ setPlayingUI(true); });
-    audio.addEventListener('pause', function(){ setPlayingUI(false); });
+    audio.addEventListener('play', function(){ setPlayingUI(true); if (window.hscHoldForAudio) window.hscHoldForAudio(true); });
+    audio.addEventListener('pause', function(){ setPlayingUI(false); if (window.hscHoldForAudio) window.hscHoldForAudio(false); });
     audio.addEventListener('ended', function(){
       setPlayingUI(false);
       fill.style.width = '0%';
