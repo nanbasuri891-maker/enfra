@@ -67,6 +67,11 @@
     height:100%;
     object-fit:cover;
     z-index:0;
+    transition:opacity 1.2s ease;
+  }
+
+  .hero.video-ended .hero-bgvideo{
+    opacity:0;
   }
 
   .hero::before{
@@ -255,7 +260,7 @@
   .hero-statement.is-revealed{
     opacity:1;
     transform:translateY(0);
-    max-height:1200px;
+    max-height:2600px;
     pointer-events:auto;
     padding:3.4rem 1.5rem 1rem;
   }
@@ -417,7 +422,7 @@
     width:100%;
     max-width:420px;
     height:260px;
-    margin:0 auto 1.4rem;
+    margin:1.4rem auto 0;
     border-radius:16px;
     overflow:hidden;
     box-shadow:0 30px 60px -25px rgba(43,46,51,.25);
@@ -1242,14 +1247,14 @@
       </div>
       <div class="hsc-group hsc-flower">
         <div class="title-ornament"></div>
-        <div class="hsc-flower-frame">
-          <img src="assets/flower-bg.png" alt="縁起とフラクタル">
-        </div>
         <div class="lines">
           <p>縁起とフラクタルは<br>有機と無機が<br>織りなす自然界の<br>派生モデル</p>
           <p>予測が効かない事象を<br>検証（スコアリング）<br>可能にする<br>美脳調律プログラムの<br>採用モデル</p>
           <p>AIを通じた<br>ヴィジュアル<br>コミュニケーションを通じて</p>
           <p>貴方のモデルを<br>しずかに紐解きます</p>
+        </div>
+        <div class="hsc-flower-frame">
+          <img src="assets/flower-bg.png" alt="縁起とフラクタル">
         </div>
       </div>
     </div>
