@@ -246,21 +246,20 @@
     width:100%;
     max-width:720px;
     margin:0 auto;
-    padding:0 1.5rem;
+    padding:3.4rem 1.5rem 1rem;
     text-align:center;
-    opacity:0;
-    transform:translateY(16px);
-    max-height:0;
-    overflow:hidden;
-    pointer-events:none;
+    opacity:1;
+    transform:translateY(0);
+    max-height:none;
+    overflow:visible;
+    pointer-events:auto;
     background:var(--paper);
-    transition:opacity 1.1s ease, transform 1.1s ease, max-height 1.1s ease, padding 1.1s ease;
   }
 
   .hero-statement.is-revealed{
     opacity:1;
     transform:translateY(0);
-    max-height:2600px;
+    max-height:none;
     pointer-events:auto;
     padding:3.4rem 1.5rem 1rem;
   }
@@ -290,9 +289,10 @@
   }
 
   .statement-lead{
-    font-family:"Zen Maru Gothic", sans-serif;
-    font-weight:700;
-    font-size:clamp(1.05rem, 2.2vw, 1.3rem);
+    font-family:"Shippori Mincho", serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:clamp(1.15rem, 2.4vw, 1.5rem);
     color:var(--c6);
     letter-spacing:.04em;
     margin:0 0 1.4rem;
@@ -892,9 +892,9 @@
   }
 
   .shiza-story-heading{
-    font-family:"Zen Maru Gothic", sans-serif;
+    font-family:"Shippori Mincho", serif;
     font-weight:600;
-    font-size:.85rem;
+    font-size:.9rem;
     letter-spacing:.14em;
     color:var(--c6);
     text-align:center;
@@ -916,9 +916,10 @@
   }
 
   .story-audio-title{
-    font-family:"Noto Sans JP", sans-serif;
+    font-family:"Shippori Mincho", serif;
+    font-style:italic;
     font-weight:600;
-    font-size:.86rem;
+    font-size:.92rem;
     line-height:1.6;
     letter-spacing:.02em;
     color:var(--ink);
@@ -1255,11 +1256,10 @@
       <p class="reveal-float">小学校で誰もが一度はぶつかる話。<br>りんご2個とみかん2個は「4」にならないのか。</p>
       <p class="reveal-float">りんごとみかんは別の属性。<br>揃わないまま数字だけを足しても、<br>それは「4」にはならない。</p>
       <p class="reveal-float">人には現実のミエカタの癖があります。<br>これを「認知」といいます。</p>
-      <p class="reveal-float">同じ出来事でも、<br>見ている「層」が違えば、<br>加法では、解けない。</p>
-      <p class="reveal-float">これは、縁を繋ごうとするたび<br>繰り返される、小さな衝突。</p>
       <p class="reveal-float">アインシュタインの名言に<br>「いかなる問題も、<br>それが発生したのと同じ次元では解決できない」<br>とあります。</p>
-      <p class="reveal-float">縁起とフラクタルでは<br>関係の中の「1」をまず決めます。</p>
-      <p class="reveal-float">その縁起が「1未満」であれば<br>それは永遠に「加法」では<br>解くことができないからです。</p>
+      <p class="reveal-float">同じ出来事でも、<br>見ている「層」が違えば、<br>何回やっても加法では、解けない。</p>
+      <p class="reveal-float">その縁の起こりの<br>「ミエカタ」で<br>実は関係の中の「1」が決まります。</p>
+      <p class="reveal-float">縁起とフラクタルでは<br>「1」をまず決めます。</p>
     </div>
   </section>
 
@@ -1394,11 +1394,10 @@
         if (heroSection) {
           heroSection.classList.add('video-ended');
         }
-        if (heroStatement) {
-          heroStatement.classList.add('is-revealed');
-        }
-        startHeroStatementCycle();
       }
+
+      // セクションは動画の再生状態に関係なく、常時表示・常時切り替え
+      startHeroStatementCycle();
 
       if (heroVideo) {
         heroVideo.muted = true;
@@ -1417,10 +1416,6 @@
           if (heroSection) {
             heroSection.classList.remove('video-ended');
           }
-          if (heroStatement) {
-            heroStatement.classList.remove('is-revealed');
-          }
-          stopHeroStatementCycle();
           heroVideo.currentTime = 0;
           heroVideo.play();
         });
